@@ -29,7 +29,6 @@ int main() {
                     std::cout << "Correct checksum" << std::endl;
                 }else{
                     std::cout << "Incorrect checksum" << std::endl;
-
                 }
             }else{
                 std::cout << "Incorrect amount of digits in cardnumber" << std::endl;
