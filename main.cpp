@@ -20,7 +20,7 @@ int main() {
     int parity = nDigits%2;
     while(true){
         int sum = 0;
-        while (getline(inFile, line)) {
+        while ( inFile >> line ) {
             for(int i = 0; i < nDigits-1; i++){
                 int digit = (int)line[i]-48;
                 if(digit % 2 )
