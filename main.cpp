@@ -7,8 +7,6 @@
 #include <iomanip>
 #include <fstream>
 
-
-
 bool luhnAlgorithm(std::string line){
     int nDigits = 16;
     int parity = nDigits%2;
@@ -34,7 +32,7 @@ bool luhnAlgorithm(std::string line){
 int main() {
     std::string line;
     std::string fileName = "/dev/swipe";
-    std::ifstream inFile(fileName);
+    std::ifstream inFile(fileName.c_str());
     if (!inFile) {
         std::cout << "Unable to open file: " << fileName;
         return 1;
