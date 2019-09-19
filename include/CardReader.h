@@ -21,9 +21,6 @@ public:
 
 private:
     std::string cardNumber;
-
-
-
 };
 
 
