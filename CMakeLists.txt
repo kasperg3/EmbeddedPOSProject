@@ -3,4 +3,6 @@ project(embeddedProj)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(embeddedProj main.cpp)
+set( project_sources main.cpp source/CardReader.cpp)
+
+add_executable(embeddedProj ${project_sources})
