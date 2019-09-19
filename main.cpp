@@ -21,25 +21,21 @@ int main() {
     while(true){
         int sum = 0;
         while (getline(inFile, line)) {
-            if(line.length() != 16){
-                for(int i = 0; i < line.length()-1; i++){
-                    int digit = (int)line[i]-48;
-                    if(digit % 2 )
-                        digit = digit*2;
-                    if(digit > 9)
-                        digit = digit - 9;
-                    sum += digit;
-                }
-
-                bool result = ((sum % 10) == 0);
-
-                std::cout << "account number: " << line << std::endl;
-                std::cout << "sum: " << sum << std::endl;
-                std::cout << "Result:  " << result;
-                return 0;
-            }else{
-                std::cout << "Incorrect amount of digits in cardnumber" << std::endl;
+            for(int i = 0; i < nDigits-1; i++){
+                int digit = (int)line[i]-48;
+                if(digit % 2 )
+                    digit = digit*2;
+                if(digit > 9)
+                    digit = digit - 9;
+                sum += digit;
             }
+
+            bool result = ((sum % 10) == 0);
+
+            std::cout << "account number: " << line << std::endl;
+            std::cout << "sum: " << sum << std::endl;
+            std::cout << "Result:  " << result;
+            return 0;
         }
     }
 
