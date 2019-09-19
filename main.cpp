@@ -15,26 +15,33 @@ int main() {
     }else{
         std::cout << "Succesfully opened file: " << fileName;
     }
+
+    int nDigits = 16;
+    int parity = nDigits%2;
     while(true){
+        int sum = 0;
         while (getline(inFile, line)) {
             if(line.length() != 16){
-                for(int i = 0; i < line.length(); i++){
-                    if(i % 2 == 1){
-                        if(((int)line[i]-48) * 2 > 9){ sum += ((int)line[i]-48) * 2 - 9;}
-                    }else{
-                        sum += ((int)line[i]-48);
-                    }
+                for(int i = 0; i < line.length()-1; i++){
+                    int digit = (int)line[i]-48;
+                    if(digit % 2 )
+                        digit = digit*2;
+                    if(digit > 9)
+                        digit = digit - 9;
+                    sum += digit;
                 }
-                if(sum%10){
-                    std::cout << "Correct checksum" << std::endl;
-                }else{
-                    std::cout << "Incorrect checksum" << std::endl;
-                }
+
+                bool result = ((sum % 10) == 0);
+
+                std::cout << "account number: " << line << std::endl;
+                std::cout << "sum: " << sum << std::endl;
+                std::cout << "Result:  " << result;
             }else{
                 std::cout << "Incorrect amount of digits in cardnumber" << std::endl;
             }
         }
     }
+
 
 
     inFile.close();
