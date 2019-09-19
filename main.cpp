@@ -11,7 +11,7 @@ int main() {
     inFile.open(fileName);
     if (!inFile) {
         std::cout << "Unable to open file: " << fileName;
-        exit(1); // terminate with error
+        return 1;
     }else{
         std::cout << "Succesfully opened file: " << fileName;
     }
@@ -36,6 +36,7 @@ int main() {
                 std::cout << "account number: " << line << std::endl;
                 std::cout << "sum: " << sum << std::endl;
                 std::cout << "Result:  " << result;
+                return 0;
             }else{
                 std::cout << "Incorrect amount of digits in cardnumber" << std::endl;
             }
