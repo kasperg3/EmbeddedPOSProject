@@ -4,7 +4,7 @@ project(embeddedProj)
 set(CMAKE_CXX_STANDARD 11)
 
 #Set the sources of the project
-set( project_sources
+set(project_sources
         main.cpp
         src/CardReader.cpp)
 
