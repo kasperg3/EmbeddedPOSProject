@@ -7,6 +7,7 @@ for var in "$@"
 do
   if [ "$var" = "--help" ]
    then
+    echo 'exportToZybo.sh [location on zybo] [Files] ... [more files]'
     echo 'ARG1 has to be target location of the ssh target'
     echo 'the following arguments is the files that need to be transfered. This can be unlimited.'
     exit

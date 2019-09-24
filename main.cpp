@@ -56,7 +56,7 @@ int main() {
                 break;
             }
             case ST_APPROVEAMOUNT: {
-                std::cout << "Order total = 49.99 DKK, press 'a' to approve: ";
+                std::cout << "Order total = 69.69 DKK, press 'a' to approve: ";
                 char input;
                 std::cin >> input;
                 if (input == 'a') {

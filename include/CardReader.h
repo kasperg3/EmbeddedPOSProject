@@ -13,11 +13,9 @@ class CardReader {
 
 public:
     CardReader();
+    ~CardReader();
     int waitForSwipe();
     bool luhnAlgorithm();
-    std::string getCardNumber();
-    void setCardNumber(std::string);
-
 
 private:
     std::string cardNumber;

@@ -43,10 +43,6 @@ int CardReader::waitForSwipe() {
     }
 }
 
-void CardReader::setCardNumber(std::string numberString) {
-    cardNumber = numberString;
-}
+CardReader::~CardReader() {
 
-std::string CardReader::getCardNumber() {
-    return cardNumber;
 }
