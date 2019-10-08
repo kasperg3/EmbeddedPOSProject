@@ -53,11 +53,7 @@ void numpadDriverTest(){
     }
 }
 
-int main() {
-    init_main();
-    //---------------------- INSERT EXECUTION CODE HERE ----------------------//
-    //ledTest();
-    //numpadDriverTest();
+void displayDriverTest(){
 
     DisplayDriver displayDriver;
     displayDriver.init();
@@ -65,8 +61,13 @@ int main() {
     displayDriver.print(1,"q p");
     displayDriver.print(66, 'W');
     displayDriver.print(5, "HERRO");
+}
 
-
-
+int main() {
+    init_main();
+    //---------------------- INSERT EXECUTION CODE HERE ----------------------//
+    //ledTest();
+    //numpadDriverTest();
+    displayDriverTest();
     return 0;
 }
