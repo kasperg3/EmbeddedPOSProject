@@ -62,8 +62,8 @@ int main() {
     DisplayDriver displayDriver;
     displayDriver.init();
     displayDriver.clear();
-    displayDriver.print(" kasper"); //TODO: FIX that the first char is not showed
-
+    displayDriver.print("q p");
+    displayDriver.print(66, 'W');
 
 
     return 0;
