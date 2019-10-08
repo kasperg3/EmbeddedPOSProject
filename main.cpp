@@ -11,6 +11,7 @@
 #include <sys/utsname.h>
 #include "include/GPIO.h"
 #include "include/NumpadDriver.h"
+#include "include/DisplayDriver.h"
 #include <chrono>
 
 int init_main(){
@@ -57,6 +58,12 @@ int main() {
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
     //ledTest();
     //numpadDriverTest();
+
+    DisplayDriver displayDriver;
+    displayDriver.init();
+    displayDriver.clear();
+    displayDriver.print(" kasper"); //TODO: FIX that the first char is not showed
+
 
 
     return 0;
