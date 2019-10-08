@@ -32,19 +32,19 @@ bool CardReader::luhnAlgorithm() {
 int CardReader::waitForSwipe() {
 
     std::string line;
-    std::string fileName = "/home/kasper/CLionProjects/embeddedProject/swipe";
+    std::string fileName = "/dev/swipe";
     std::ifstream inFile(fileName.c_str());
     if (!inFile) {
         return 1;
     }
     while (getline(inFile, line)) {
         cardNumber = line;
+        inFile.close();
         return 0;
     }
 }
 
 CardReader::~CardReader(){
-
 }
 
 int CardReader::runCardReader() {

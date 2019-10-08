@@ -1,6 +1,6 @@
 //
 // Created by kasper on 10/4/19.
-// BASED OF LEON'S CODE EXAMPLE FROM LAB3
+// BASED OF LEON'S CODE example.cpp FROM LAB 3
 //
 
 #include "../include/GPIO.h"
