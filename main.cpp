@@ -12,9 +12,8 @@
 #include "include/GPIO.h"
 #include <chrono>
 
-
-int main() {
-    struct utsname buffer;
+int init_main(){
+    struct utsname buffer{};
     if (uname(&buffer) != 0) {
         return 1;
     }
@@ -25,15 +24,23 @@ int main() {
     printf("version     = %s\n", buffer.version);
     printf("machine     = %s\n", buffer.machine);
 
+    printf("---------------------INIT END----------------------\n");
+}
 
-    //---------------------- INSERT EXECUTION CODE HERE ----------------------
+int main() {
+    init_main();
+    //---------------------- INSERT EXECUTION CODE HERE ----------------------//
     //CardReader cardReader;
     //cardReader.runCardReader();
     GPIO ledPin("984"); // LED PIN
     ledPin.exportPin();
     ledPin.setPinDirection("out");
     ledPin.set();
-
-
+    std::string pinValue;
+    ledPin.getPinValue(pinValue);
+    std::cout << "Led value: " + pinValue << std::endl;
+    ledPin.clear();
+    ledPin.getPinValue(pinValue);
+    std::cout << "Led value: " + pinValue << std::endl;
     return 0;
 }
