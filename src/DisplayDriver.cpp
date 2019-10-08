@@ -146,11 +146,13 @@ void DisplayDriver::setAddress(int addr) {
     sendCommand(std::string("001").append(std::bitset<7>(addr).to_string()));
 }
 
-void DisplayDriver::print(std::string printString) {
-    clear();
+/*
+ * Prints a string from the start of the display
+ */
+void DisplayDriver::print(int startAddr, std::string printString) {
     setAddress(1);
     for(int i = 0; i < printString.length(); i++){
-        print(i+1,printString[i]);
+        print(i+startAddr,printString[i]);
         sendCommand("0000000110");//Shift Cursor and address increment
     }
 }

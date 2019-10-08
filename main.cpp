@@ -62,8 +62,10 @@ int main() {
     DisplayDriver displayDriver;
     displayDriver.init();
     displayDriver.clear();
-    displayDriver.print("q p");
+    displayDriver.print(1,"q p");
     displayDriver.print(66, 'W');
+    displayDriver.print(5, "HERRO");
+
 
 
     return 0;

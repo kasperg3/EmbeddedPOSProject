@@ -35,7 +35,7 @@ public:
     ~DisplayDriver();
     void init();
     void print(int, char);
-    void print(std::string);
+    void print(int, std::string);
     void clear();
 };
 
