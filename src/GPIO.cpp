@@ -27,7 +27,7 @@ int GPIO::readFromFile(std::string file, std::string &outputString) {
 
 GPIO::GPIO(std::string pinString) : pin_number(pinString) {}
 
-int GPIO::setPinNumber(int) {
+int GPIO::setPinNumber(int number) {
 
 }
 
@@ -39,15 +39,15 @@ int GPIO::unexportPin() {
     return 0;
 }
 
-int GPIO::setPinDirection(std::string) {
+int GPIO::setPinDirection(std::string direction) {
     return 0;
 }
 
-int GPIO::setPinValue(std::string) {
+int GPIO::setPinValue(std::string pinValue) {
     return 0;
 }
 
-int GPIO::getPinValue(std::string &) {
+int GPIO::getPinValue(std::string &pin) {
     return 0;
 }
 

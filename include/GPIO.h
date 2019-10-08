@@ -22,12 +22,9 @@ public:
     GPIO(std::string);
 
     int setPinNumber(int);
-
     int exportPin();
     int unexportPin();
-
     int setPinDirection(std::string);
-
     int setPinValue(std::string);
     int getPinValue(std::string&);
 

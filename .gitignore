@@ -1,9 +1,8 @@
 CMakeLists.txt.user
-cmake-build-debug
-cmake-build-debug-remote
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
+cmake-build-debug
 .idea
 *.cbp
 cmake_install.cmake
