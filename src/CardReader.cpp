@@ -43,9 +43,12 @@ int CardReader::waitForSwipe() {
     }
 }
 
-CardReader::~CardReader() = default;
+CardReader::~CardReader(){
+
+}
 
 int CardReader::runCardReader() {
+    currentState = ST_IDLE;
     //Switch Case: MOVE THIS TO ANOTHER CLASS WHEN EXPANDING
     while (currentState != ST_STOP) {
         switch (currentState) {

@@ -8,16 +8,16 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-enum States {
-    ST_IDLE,
-    ST_FAILURE,
-    ST_WAITFORSWIPE,
-    ST_APPROVEAMOUNT,
-    ST_INPUTPIN,
-    ST_STOP
-};
 
 class CardReader {
+    enum States {
+        ST_IDLE,
+        ST_FAILURE,
+        ST_WAITFORSWIPE,
+        ST_APPROVEAMOUNT,
+        ST_INPUTPIN,
+        ST_STOP
+    };
 
 
 public:
@@ -26,7 +26,7 @@ public:
     int runCardReader();
     int waitForSwipe();
     bool luhnAlgorithm();
-    States currentState = ST_IDLE;
+    States currentState;
 
 private:
     std::string cardNumber;
