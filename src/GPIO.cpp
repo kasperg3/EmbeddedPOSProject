@@ -1,5 +1,6 @@
 //
 // Created by kasper on 10/4/19.
+// BASED OF LEON'S CODE EXAMPLE FROM LAB3
 //
 
 #include "../include/GPIO.h"
@@ -90,11 +91,6 @@ int GPIO::unexportPin() {
 
 int GPIO::setPinDirection(std::string direction) {
 
-    if(!direction.compare("in") or !direction.compare("out")){
-        std::cerr << "Not a valid direction" << std::endl;
-        return -1;
-    }
-
     // Define paths
     std::string pin_path = "/sys/class/gpio/gpio" + pin_number + "/direction";
 
@@ -120,15 +116,15 @@ int GPIO::setPinValue(std::string pinValue) {
         std::string write_pin_path = "/sys/class/gpio/gpio" + pin_number + "/value";
 
         // Open file
-        std::ofstream write_led_file( write_pin_path.c_str() );
-        if(!write_led_file.is_open())
+        std::ofstream write_pin_file( write_pin_path.c_str() );
+        if(!write_pin_file.is_open())
         {
             std::cerr << "Unable to open " << write_pin_path << std::endl;
             return -1;
         }
 
         // Write value
-        write_led_file << pinValue;
+        write_pin_file << pinValue;
         return 0;
     }else{
         std::cerr << "Not a valid pin value " << std::endl;
@@ -153,9 +149,9 @@ int GPIO::getPinValue(std::string &string_out) {
 }
 
 void GPIO::set(void) {
-
+    setPinValue("1");
 }
 
 void GPIO::clear(void) {
-
+    setPinValue("0");
 }

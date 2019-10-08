@@ -9,6 +9,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <unistd.h>
 
 class GPIO {
 private:

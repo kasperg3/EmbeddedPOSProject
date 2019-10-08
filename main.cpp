@@ -29,9 +29,10 @@ int main() {
     //---------------------- INSERT EXECUTION CODE HERE ----------------------
     //CardReader cardReader;
     //cardReader.runCardReader();
-
-    GPIO gpio("");
-
+    GPIO ledPin("984"); // LED PIN
+    ledPin.exportPin();
+    ledPin.setPinDirection("out");
+    ledPin.set();
 
 
     return 0;
