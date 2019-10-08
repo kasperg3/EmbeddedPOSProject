@@ -10,6 +10,7 @@
 #include "include/CardReader.h"
 #include <sys/utsname.h>
 #include "include/GPIO.h"
+#include "include/NumpadDriver.h"
 #include <chrono>
 
 int init_main(){
@@ -27,11 +28,7 @@ int init_main(){
     printf("---------------------INIT END----------------------\n");
 }
 
-int main() {
-    init_main();
-    //---------------------- INSERT EXECUTION CODE HERE ----------------------//
-    //CardReader cardReader;
-    //cardReader.runCardReader();
+void ledTest(){
     GPIO ledPin("984"); // LED PIN
     ledPin.exportPin();
     ledPin.setPinDirection("out");
@@ -42,5 +39,25 @@ int main() {
     ledPin.clear();
     ledPin.getPinValue(pinValue);
     std::cout << "Led value: " + pinValue << std::endl;
+}
+
+void numpadDriverTest(){
+    NumpadDriver numpadDriver;
+    numpadDriver.init();
+    int value;
+    while(true){
+        value = numpadDriver.check();
+        if(value != -1)
+            std::cout << "value: " << std::hex << value << std::endl;
+    }
+}
+
+int main() {
+    init_main();
+    //---------------------- INSERT EXECUTION CODE HERE ----------------------//
+    //ledTest();
+    //numpadDriverTest();
+
+
     return 0;
 }

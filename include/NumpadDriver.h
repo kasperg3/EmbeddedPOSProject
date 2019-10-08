@@ -8,17 +8,18 @@
 
 #include <vector>
 #include "../include/GPIO.h"
+#include <array>
+#include <iostream>
 class NumpadDriver {
 private:
-    std::vector<GPIO> collumn;
-    std::vector<GPIO> row;
-
+    GPIO column[4];
+    GPIO row[4];
+    int getValue();
 public:
     NumpadDriver();
     ~NumpadDriver();
     void init();
     int check();
-    int getValue();
 };
 
 

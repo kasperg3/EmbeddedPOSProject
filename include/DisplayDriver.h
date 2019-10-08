@@ -5,6 +5,11 @@
 #ifndef EMBEDDEDPROJ_DISPLAYDRIVER_H
 #define EMBEDDEDPROJ_DISPLAYDRIVER_H
 
+#include "GPIO.h"
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+
 class DisplayDriver {
 private:
 
