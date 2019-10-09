@@ -60,20 +60,14 @@ void displayDriverTest(){
     displayDriver.print(5, "HERRO");
 }
 
-int main() {
-    init_main();
-    //---------------------- INSERT EXECUTION CODE HERE ----------------------//
-    //ledTest();
-    //numpadDriverTest();
-    //displayDriverTest();
-
+void numpadToDisplayTest(){
     DisplayDriver displayDriver;
     displayDriver.init();
     displayDriver.clear();
 
     NumpadDriver numpadDriver;
     numpadDriver.init();
-    ledTest();
+
     int value;
     int oldValue= -1;
     while(true){
@@ -88,6 +82,17 @@ int main() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
+}
+
+int main() {
+    init_main();
+    //---------------------- INSERT EXECUTION CODE HERE ----------------------//
+    //ledTest();
+    //numpadDriverTest();
+    //displayDriverTest();
+    //numpadToDisplayTest();
+
+
 
     return 0;
 }
