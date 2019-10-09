@@ -35,8 +35,6 @@ void NumpadDriver::init() {
 
 int NumpadDriver::check() {
     return getValue();
-
-
 }
 
 int NumpadDriver::getValue() {
@@ -61,5 +59,4 @@ int NumpadDriver::getValue() {
         return -1;
 
     return numpadMap[rowIndex-1][colIndex-1];
-
 }

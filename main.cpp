@@ -37,9 +37,6 @@ void ledTest(){
     std::string pinValue;
     ledPin.getPinValue(pinValue);
     std::cout << "Led value: " + pinValue << std::endl;
-    ledPin.clear();
-    ledPin.getPinValue(pinValue);
-    std::cout << "Led value: " + pinValue << std::endl;
 }
 
 void numpadDriverTest(){
@@ -68,6 +65,29 @@ int main() {
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
     //ledTest();
     //numpadDriverTest();
-    displayDriverTest();
+    //displayDriverTest();
+
+    DisplayDriver displayDriver;
+    displayDriver.init();
+    displayDriver.clear();
+
+    NumpadDriver numpadDriver;
+    numpadDriver.init();
+    ledTest();
+    int value;
+    int oldValue= -1;
+    while(true){
+        value = numpadDriver.check();
+        if(value != -1 && oldValue != value){
+            if(value > 9)
+                displayDriver.print(1, value + 7 + '0'); //Add 7 to reach ascii A
+            else
+                displayDriver.print(1, value + '0');
+
+            oldValue = value;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
     return 0;
 }

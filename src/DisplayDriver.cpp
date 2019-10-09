@@ -39,9 +39,8 @@ void DisplayDriver::init() {
 void DisplayDriver::print(int address, char character) {
     setAddress(address);
     sendData(character);
+    sendCommand("0000000110");//Shift Cursor and address increment
 }
-
-
 
 /*
  * Clear display by writing a 20H to all DDRAM locations;
@@ -153,6 +152,5 @@ void DisplayDriver::print(int startAddr, std::string printString) {
     setAddress(1);
     for(int i = 0; i < printString.length(); i++){
         print(i+startAddr,printString[i]);
-        sendCommand("0000000110");//Shift Cursor and address increment
     }
 }
