@@ -21,6 +21,8 @@
 #include <cstring>
 #include <signal.h>
 #include "include/Core.h"
+#include "include/NumpadDriverTask.h"
+#include "include/DisplayDriverTask.h"
 
 int init_main(){
     struct utsname buffer{};
@@ -93,27 +95,7 @@ void numpadToDisplayTest(){
 }
 
 //EXERCISE LECTURE 5 - POSIX
-pthread_mutex_t stopMutex;
-static bool th_consumer_running = true;
-static bool th_publisher_running = true;
-
-void signal_handler(int signum) {
-    fprintf(stderr, "\n\nReceived signal: %d.\nStopping threads...\n", signum);
-    th_consumer_running = false;
-    th_publisher_running = false;
-}
-
-int counter = 0;
-void *print_number(void *threadid){
-    for(int i = 0; i < 500; i++){
-        pthread_mutex_lock(&stopMutex);
-        counter++;
-        std::cout << counter << std::endl;
-        pthread_mutex_unlock(&stopMutex);
-    }
-}
-
-
+//
 void *queue_consumer(void *args){
     (void) args; /* Suppress -Wunused-parameter warning. */
     /* Initialize the queue attributes */
@@ -176,7 +158,7 @@ void *queue_publisher(void *args){
         /* Send a burst of three messages */
         for(int i=0; i<3; i++) {
             snprintf(buffer, sizeof(buffer), "put msg here");
-            printf("[PUBLISHER]: Sending message %d ...\n", count, 0);
+            printf("[PUBLISHER]: Sending message %d ...\n", count);
             mq_send(mq, buffer, QUEUE_MSGSIZE, 0);
             count++;
         }
@@ -196,9 +178,10 @@ void *queue_publisher(void *args){
 }
 
 int exercise1lec5(){
-    pthread_t th_publisher, th_consumer;
+    pthread_t th_publisher;
+    pthread_t th_consumer;
 
-    signal(SIGINT, signal_handler);
+//    signal(SIGINT, signal_handler);
 
     uid_t user_id = getuid();
     if(user_id > 0) {
@@ -206,18 +189,15 @@ int exercise1lec5(){
         exit(EXIT_FAILURE);
     }
 
-    printf("Start...\n");
-
     pthread_create(&th_consumer, NULL, &queue_consumer, NULL);
     pthread_create(&th_publisher, NULL, &queue_publisher, NULL);
 
     pthread_join(th_publisher, NULL);
     pthread_join(th_consumer, NULL);
 
-    printf("Done...\n");
-
     return (EXIT_SUCCESS);
 }
+
 
 int main() {
     init_main();
@@ -226,8 +206,28 @@ int main() {
     //numpadDriverTest();
     //displayDriverTest();
     //numpadToDisplayTest();
+    //exercise1lec5();
 
-    exercise1lec5();
+    NumpadDriverTask numpadDriverTask;
+    numpadDriverTask.setMessageQueue("/message_queue");
+
+    DisplayDriverTask displayDriverTask;
+    displayDriverTask.setMessageQueue("/message_queue");
+
+    pthread_t numpadPublisher;
+    pthread_t displayConsumer;
+
+    uid_t user_id = getuid();
+    if(user_id > 0) {
+        printf("Run as root.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    pthread_create(&numpadPublisher, NULL, reinterpret_cast<void *(*)(void *)>(NumpadDriverTask::taskHandler), &numpadDriverTask);
+    pthread_create(&displayConsumer, NULL, reinterpret_cast<void *(*)(void *)>(DisplayDriverTask::taskHandler), &displayConsumer);
+
+    pthread_join(numpadPublisher, NULL);
+    pthread_join(displayConsumer, NULL);
 
     return 0;
 }

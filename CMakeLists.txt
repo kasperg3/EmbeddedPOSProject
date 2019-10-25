@@ -9,7 +9,7 @@ set(project_sources
         src/CardReader.cpp include/CardReader.h
         src/GPIO.cpp include/GPIO.h
         src/NumpadDriver.cpp include/NumpadDriver.h
-        src/DisplayDriver.cpp include/DisplayDriver.h include/Core.h)
+        src/DisplayDriver.cpp include/DisplayDriver.h include/Core.h src/NumpadDriverTask.cpp include/NumpadDriverTask.h src/DisplayDriverTask.cpp include/DisplayDriverTask.h)
 
 #Adds executable to the bin direcory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
