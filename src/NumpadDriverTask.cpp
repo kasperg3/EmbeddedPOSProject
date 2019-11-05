@@ -12,7 +12,7 @@ void NumpadDriverTask::setMessageQueue(std::string msg) {
 
 void *NumpadDriverTask::taskHandler(NumpadDriverTask *numpadDriver) {
     //Init numpaddriver
-    numpadDriver->init();
+    //numpadDriver->init();
 
     /* Open the created queue by the consumer. */
     mqd_t mq;

@@ -204,10 +204,9 @@ int main() {
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
     //ledTest();
     //numpadDriverTest();
-    displayDriverTest();
+    //displayDriverTest();
     //numpadToDisplayTest();
     //exercise1lec5();
-    return 0;
     NumpadDriverTask numpadDriverTask;
     //numpadDriverTask.setMessageQueue("/message_queue");
 
@@ -217,6 +216,9 @@ int main() {
     //The input
     NumpadDriver numpadDriver;
     DisplayDriver displayDriver;
+    numpadDriver.init();
+    displayDriver.init();
+    displayDriver.clear();
 
     pthread_t numpadPublisher;
     pthread_t displayConsumer;

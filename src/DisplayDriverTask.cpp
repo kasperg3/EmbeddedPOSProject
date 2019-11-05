@@ -10,8 +10,8 @@ void DisplayDriverTask::setMessageQueue(std::string msg) {
 }
 
 void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
-    displayDriver->init();
-    displayDriver->clear();
+    //displayDriver->init();
+    //displayDriver->clear();
     /* Initialize the queue attributes */
     struct mq_attr attr = QUEUE_ATTR_INITIALIZER;
 
