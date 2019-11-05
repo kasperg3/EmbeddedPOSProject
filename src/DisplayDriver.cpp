@@ -5,6 +5,14 @@
 #include "../include/DisplayDriver.h"
 
 DisplayDriver::DisplayDriver() {
+
+}
+
+DisplayDriver::~DisplayDriver() {
+
+}
+
+void DisplayDriver::init() {
     //Databit setup
     data_bit[7] = GPIO("1016");
     data_bit[6] = GPIO("1017");
@@ -23,13 +31,7 @@ DisplayDriver::DisplayDriver() {
     enable = GPIO("1014");
     //Optional back-light enable (not connected on the Pmod CLP
     backlight = GPIO("1015");
-}
 
-DisplayDriver::~DisplayDriver() {
-
-}
-
-void DisplayDriver::init() {
     std::cout << "[INFO] initialising GPIO" << std::endl;
     initGPIO();
     std::cout << "[INFO] initialising Display" << std::endl;

@@ -10,8 +10,8 @@ void DisplayDriverTask::setMessageQueue(std::string msg) {
 }
 
 void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
-    //((DisplayDriver*)displayDriver)->init(); ////TODO Commen this in when using zybo, and add print in while
-    //((DisplayDriver*)displayDriver)->clear();
+    displayDriver->init();
+    displayDriver->clear();
     /* Initialize the queue attributes */
     struct mq_attr attr = QUEUE_ATTR_INITIALIZER;
 
@@ -29,9 +29,10 @@ void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
         memset(buffer, 0x00, sizeof(buffer));
         bytes_read = mq_receive(mq, buffer, QUEUE_MSGSIZE, 0);
         if(bytes_read >= 0) {
-            printf("[CONSUMER]: Received message: \"%s\"\n", buffer);
+            printf("[CONSUMER]: Received message: %s \n", buffer);
+            displayDriver->print(1,buffer);
         } else {//Wait for messages
-            std::this_thread::sleep_for(std::chrono::milliseconds(50)); //Double the poll speed of producer
+            std::this_thread::sleep_for(std::chrono::milliseconds(500)); //Double the poll speed of producer
         }
         fflush(stdout);
     }

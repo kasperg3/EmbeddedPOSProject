@@ -204,15 +204,19 @@ int main() {
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
     //ledTest();
     //numpadDriverTest();
-    //displayDriverTest();
+    displayDriverTest();
     //numpadToDisplayTest();
     //exercise1lec5();
-
+    return 0;
     NumpadDriverTask numpadDriverTask;
-    numpadDriverTask.setMessageQueue("/message_queue");
+    //numpadDriverTask.setMessageQueue("/message_queue");
 
     DisplayDriverTask displayDriverTask;
-    displayDriverTask.setMessageQueue("/message_queue");
+    //displayDriverTask.setMessageQueue("/message_queue");
+
+    //The input
+    NumpadDriver numpadDriver;
+    DisplayDriver displayDriver;
 
     pthread_t numpadPublisher;
     pthread_t displayConsumer;
@@ -223,8 +227,8 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    pthread_create(&numpadPublisher, NULL, reinterpret_cast<void *(*)(void *)>(NumpadDriverTask::taskHandler), &numpadDriverTask);
-    pthread_create(&displayConsumer, NULL, reinterpret_cast<void *(*)(void *)>(DisplayDriverTask::taskHandler), &displayConsumer);
+    pthread_create(&numpadPublisher, NULL, reinterpret_cast<void *(*)(void *)>(NumpadDriverTask::taskHandler), &numpadDriver);
+    pthread_create(&displayConsumer, NULL, reinterpret_cast<void *(*)(void *)>(DisplayDriverTask::taskHandler), &displayDriver);
 
     pthread_join(numpadPublisher, NULL);
     pthread_join(displayConsumer, NULL);

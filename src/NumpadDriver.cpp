@@ -6,14 +6,7 @@
 #include "../include/NumpadDriver.h"
 
 NumpadDriver::NumpadDriver() {
-    column[0] = GPIO("995");
-    column[1] = GPIO("994");
-    column[2] = GPIO("993");
-    column[3] = GPIO("992");
-    row[0] = GPIO("999");
-    row[1] = GPIO("998");
-    row[2] = GPIO("997");
-    row[3] = GPIO("996");
+
 }
 
 NumpadDriver::~NumpadDriver() {
@@ -25,6 +18,15 @@ NumpadDriver::~NumpadDriver() {
 }
 
 void NumpadDriver::init() {
+    column[0] = GPIO("995");
+    column[1] = GPIO("994");
+    column[2] = GPIO("993");
+    column[3] = GPIO("992");
+    row[0] = GPIO("999");
+    row[1] = GPIO("998");
+    row[2] = GPIO("997");
+    row[3] = GPIO("996");
+
     for(int i = 0; i < 4; i++){
         column[i].exportPin();
         column[i].setPinDirection("out");
