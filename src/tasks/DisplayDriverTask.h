@@ -7,9 +7,9 @@
 
 
 #include <string>
-#include "DisplayDriver.h"
+#include "../peripherals/DisplayDriver.h"
 #include <utility>
-#include "../include/Core.h"
+#include "../Core.h"
 #include <mqueue.h>
 #include <errno.h>
 #include <cstring>

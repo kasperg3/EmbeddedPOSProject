@@ -3,7 +3,7 @@
 //
 
 #include <sstream>
-#include "../include/NumpadDriver.h"
+#include "NumpadDriver.h"
 
 NumpadDriver::NumpadDriver() {
 

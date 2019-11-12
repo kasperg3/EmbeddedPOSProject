@@ -7,9 +7,9 @@
 
 
 #include <string>
-#include "NumpadDriver.h"
+#include "../peripherals/NumpadDriver.h"
 #include <mqueue.h>
-#include "../include/Core.h"
+#include "../Core.h"
 #include <thread>
 
 

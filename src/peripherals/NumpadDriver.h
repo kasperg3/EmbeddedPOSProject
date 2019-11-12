@@ -7,7 +7,7 @@
 
 
 #include <vector>
-#include "../include/GPIO.h"
+#include "GPIO.h"
 #include <array>
 #include <iostream>
 class NumpadDriver {

@@ -3,7 +3,7 @@
 // BASED OF LEON'S CODE example.cpp FROM LAB 3
 //
 
-#include "../include/GPIO.h"
+#include "GPIO.h"
 
 #include <utility>
 

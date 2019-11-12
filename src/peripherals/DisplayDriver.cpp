@@ -2,10 +2,9 @@
 // Created by kasper on 10/4/19.
 //
 #include <bits/stdc++.h>
-#include "../include/DisplayDriver.h"
+#include "DisplayDriver.h"
 
 DisplayDriver::DisplayDriver() {
-
 }
 
 DisplayDriver::~DisplayDriver() {
@@ -60,10 +59,10 @@ void DisplayDriver::clear() {
 }
 
 void DisplayDriver::initGPIO() {
-    for(auto & gpio : data_bit){
-        gpio.exportPin();
-        gpio.setPinDirection("out");
-        gpio.clear();
+    for(auto & item : data_bit){
+        item.exportPin();
+        item.setPinDirection("out");
+        item.clear();
     }
     register_select.exportPin();
     register_select.setPinDirection("out");

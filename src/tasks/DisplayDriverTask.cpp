@@ -2,7 +2,7 @@
 // Created by kasper on 10/24/19.
 //
 
-#include "../include/DisplayDriverTask.h"
+#include "../tasks/DisplayDriverTask.h"
 
 
 void DisplayDriverTask::setMessageQueue(std::string msg) {
