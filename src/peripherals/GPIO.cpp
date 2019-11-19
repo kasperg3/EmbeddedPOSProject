@@ -3,63 +3,68 @@
 // BASED OF LEON'S CODE example.cpp FROM LAB 3
 //
 
-#include "GPIO.h"
+#include "GPIO.hpp"
 
 #include <utility>
 
 
 GPIO::GPIO() {}
 
-GPIO::GPIO(std::string pinString) : pin_number(std::move(pinString)) {}
+GPIO::GPIO(std::string pinString) {
+    pin_number = pinString;
+}
 
 int GPIO::writeToFile(std::string write_pin_path, std::string value){
 
     // Open file
     std::ofstream write_file( write_pin_path.c_str() );
-    if(!write_file.is_open())
-    {
+    if(!write_file.is_open()){
         std::cerr << "Unable to open " << write_pin_path << std::endl;
-        return -1;
+        exit (EXIT_FAILURE);
     }
 
     // Write value
     write_file << value;
     write_file.close();
+    return 0;
 }
 
 int GPIO::readFromFile(std::string file, std::string &outputString) {
     // Open file
     std::ifstream read_file( file.c_str() );
-    if(!read_file.is_open())
-    {
+    if(!read_file){
         std::cerr << "Unable to open " << file << std::endl;
-        return -1;
+        exit (EXIT_FAILURE);
     }
 
     // read value
     read_file >> outputString;
     read_file.close();
+    return 0;
 }
 
 
 int GPIO::setPinNumber(int number) {
     this->pin_number = std::to_string(number);
+    return 0;
 }
 
 int GPIO::exportPin() {
     if(pin_number.length() <= 0){
         std::cerr << "Not a valid pin_number" << std::endl;
+        exit (EXIT_FAILURE);
     }
     // Define path
     std::string export_path = "/sys/class/gpio/export";
     // Open file
     writeToFile(export_path,pin_number);
-
+    return 0;
 }
 
 int GPIO::unexportPin() {
     if(pin_number.length() <= 0){
         std::cerr << "Not a valid pin_number" << std::endl;
+        exit (EXIT_FAILURE);
     }
     // Define path
     std::string export_path = "/sys/class/gpio/export";

@@ -2,10 +2,10 @@
 // Created by kasper on 10/4/19.
 //
 
-#ifndef EMBEDDEDPROJ_DISPLAYDRIVER_H
-#define EMBEDDEDPROJ_DISPLAYDRIVER_H
+#ifndef EMBEDDEDPROJ_DISPLAYDRIVER_HPP
+#define EMBEDDEDPROJ_DISPLAYDRIVER_HPP
 
-#include "GPIO.h"
+#include "GPIO.hpp"
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -40,4 +40,4 @@ public:
 };
 
 
-#endif //EMBEDDEDPROJ_DISPLAYDRIVER_H
+#endif //EMBEDDEDPROJ_DISPLAYDRIVER_HPP

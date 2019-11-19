@@ -13,7 +13,7 @@
 
 #include <string>
 #include <iostream>
-#include "GPIO.h"
+#include "GPIO.hpp"
 #include "../event_handling/EventHandler.hpp"
 
 class PushButton : public EventHandler

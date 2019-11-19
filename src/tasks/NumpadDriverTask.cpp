@@ -2,7 +2,7 @@
 // Created by kasper on 10/24/19.
 //
 
-#include "../tasks/NumpadDriverTask.h"
+#include "NumpadDriverTask.hpp"
 
 void NumpadDriverTask::setMessageQueue(std::string msg) {
     message_queue_descriptor = msg;

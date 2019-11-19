@@ -7,11 +7,11 @@
 #include <iomanip>
 #include <fstream>
 
-#include "src/peripherals/CardReader.h"
+#include "src/peripherals/CardReader.hpp"
 #include <sys/utsname.h>
-#include "src/peripherals/GPIO.h"
-#include "src/peripherals/NumpadDriver.h"
-#include "src/peripherals/DisplayDriver.h"
+#include "src/peripherals/GPIO.hpp"
+#include "src/peripherals/NumpadDriver.hpp"
+#include "src/peripherals/DisplayDriver.hpp"
 #include <chrono>
 
 //Thread exercise
@@ -21,8 +21,8 @@
 #include <cstring>
 #include <signal.h>
 #include "src/Core.h"
-#include "src/tasks/NumpadDriverTask.h"
-#include "src/tasks/DisplayDriverTask.h"
+#include "src/tasks/NumpadDriverTask.hpp"
+#include "src/tasks/DisplayDriverTask.hpp"
 #include "src/state_handling/BombStateMachine.hpp"
 
 
@@ -66,10 +66,11 @@ void displayDriverTest(){
 
     DisplayDriver displayDriver;
     displayDriver.init();
-    displayDriver.clear();
-    displayDriver.print(1,"q p");
-    displayDriver.print(66, 'W');
-    displayDriver.print(5, "HERRO");
+    //displayDriver.clear();
+
+    displayDriver.print(5,'c');
+//    displayDriver.print(66, 'W');
+//    displayDriver.print(5, "HERRO");
 }
 
 void numpadToDisplayTest(){

@@ -1,20 +1,20 @@
 cmake_minimum_required(VERSION 2.8.7)
 project(embeddedProj C CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++0x")
 #Set the sources of the project
 set(project_sources
         main.cpp
-        src/peripherals/GPIO.cpp src/peripherals/GPIO.h
-        src/peripherals/CardReader.cpp src/peripherals/CardReader.h
-        src/peripherals/NumpadDriver.cpp src/peripherals/NumpadDriver.h
-        src/peripherals/DisplayDriver.cpp src/peripherals/DisplayDriver.h
+        src/peripherals/GPIO.cpp src/peripherals/GPIO.hpp
+        src/peripherals/CardReader.cpp src/peripherals/CardReader.hpp
+        src/peripherals/NumpadDriver.cpp src/peripherals/NumpadDriver.hpp
+        src/peripherals/DisplayDriver.cpp src/peripherals/DisplayDriver.hpp
         src/peripherals/PushButton.cpp src/peripherals/PushButton.hpp
         src/peripherals/Timer.cpp src/peripherals/Timer.hpp
 
-        src/tasks/NumpadDriverTask.cpp src/tasks/NumpadDriverTask.h
-        src/tasks/DisplayDriverTask.cpp src/tasks/DisplayDriverTask.h
+        src/tasks/NumpadDriverTask.cpp src/tasks/NumpadDriverTask.hpp
+        src/tasks/DisplayDriverTask.cpp src/tasks/DisplayDriverTask.hpp
 
         src/event_handling/EventHandler.cpp src/event_handling/EventHandler.hpp
         src/event_handling/EventQueue.cpp src/event_handling/EventQueue.hpp

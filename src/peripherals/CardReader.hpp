@@ -2,8 +2,8 @@
 // Created by kasper on 9/19/19.
 //
 
-#ifndef EMBEDDEDPROJ_CARDREADER_H
-#define EMBEDDEDPROJ_CARDREADER_H
+#ifndef EMBEDDEDPROJ_CARDREADER_HPP
+#define EMBEDDEDPROJ_CARDREADER_HPP
 
 #include <iostream>
 #include <iomanip>
@@ -32,4 +32,4 @@ private:
     std::string cardNumber;
 };
 
-#endif //EMBEDDEDPROJ_CARDREADER_H
+#endif //EMBEDDEDPROJ_CARDREADER_HPP

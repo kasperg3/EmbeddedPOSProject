@@ -2,7 +2,7 @@
 // Created by kasper on 9/19/19.
 //
 
-#include "CardReader.h"
+#include "CardReader.hpp"
 
 //invalid card: 4321543265437654
 CardReader::CardReader() {

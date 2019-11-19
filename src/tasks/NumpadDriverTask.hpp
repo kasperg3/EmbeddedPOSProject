@@ -2,12 +2,12 @@
 // Created by kasper on 10/24/19.
 //
 
-#ifndef EMBEDDEDPROJ_NUMPADDRIVERTASK_H
-#define EMBEDDEDPROJ_NUMPADDRIVERTASK_H
+#ifndef EMBEDDEDPROJ_NUMPADDRIVERTASK_HPP
+#define EMBEDDEDPROJ_NUMPADDRIVERTASK_HPP
 
 
 #include <string>
-#include "../peripherals/NumpadDriver.h"
+#include "../peripherals/NumpadDriver.hpp"
 #include <mqueue.h>
 #include "../Core.h"
 #include <thread>
@@ -23,4 +23,4 @@ public:
 };
 
 
-#endif //EMBEDDEDPROJ_NUMPADDRIVERTASK_H
+#endif //EMBEDDEDPROJ_NUMPADDRIVERTASK_HPP

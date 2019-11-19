@@ -2,9 +2,11 @@
 // Created by kasper on 10/4/19.
 //
 #include <bits/stdc++.h>
-#include "DisplayDriver.h"
+#include "DisplayDriver.hpp"
 
 DisplayDriver::DisplayDriver() {
+
+
 }
 
 DisplayDriver::~DisplayDriver() {
@@ -30,7 +32,6 @@ void DisplayDriver::init() {
     enable = GPIO("1014");
     //Optional back-light enable (not connected on the Pmod CLP
     backlight = GPIO("1015");
-
     std::cout << "[INFO] initialising GPIO" << std::endl;
     initGPIO();
     std::cout << "[INFO] initialising Display" << std::endl;
@@ -59,10 +60,10 @@ void DisplayDriver::clear() {
 }
 
 void DisplayDriver::initGPIO() {
-    for(auto & item : data_bit){
-        item.exportPin();
-        item.setPinDirection("out");
-        item.clear();
+    for(auto & gpio : data_bit){
+        gpio.exportPin();
+        gpio.setPinDirection("out");
+        gpio.clear();
     }
     register_select.exportPin();
     register_select.setPinDirection("out");

@@ -2,8 +2,8 @@
 // Created by kasper on 10/4/19.
 //
 
-#ifndef EMBEDDEDPROJ_GPIO_H
-#define EMBEDDEDPROJ_GPIO_H
+#ifndef EMBEDDEDPROJ_GPIO_HPP
+#define EMBEDDEDPROJ_GPIO_HPP
 
 #include <string>
 #include <iostream>
@@ -34,6 +34,6 @@ public:
 };
 
 
-#endif //EMBEDDEDPROJ_GPIO_H
+#endif //EMBEDDEDPROJ_GPIO_HPP
 
 

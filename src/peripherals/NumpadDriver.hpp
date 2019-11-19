@@ -2,12 +2,12 @@
 // Created by kasper on 10/4/19.
 //
 
-#ifndef EMBEDDEDPROJ_NUMPADDRIVER_H
-#define EMBEDDEDPROJ_NUMPADDRIVER_H
+#ifndef EMBEDDEDPROJ_NUMPADDRIVER_HPP
+#define EMBEDDEDPROJ_NUMPADDRIVER_HPP
 
 
 #include <vector>
-#include "GPIO.h"
+#include "GPIO.hpp"
 #include <array>
 #include <iostream>
 class NumpadDriver {
@@ -23,4 +23,4 @@ public:
 };
 
 
-#endif //EMBEDDEDPROJ_NUMPADDRIVER_H
+#endif //EMBEDDEDPROJ_NUMPADDRIVER_HPP

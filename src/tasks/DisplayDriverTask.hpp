@@ -2,12 +2,12 @@
 // Created by kasper on 10/24/19.
 //
 
-#ifndef EMBEDDEDPROJ_DISPLAYDRIVERTASK_H
-#define EMBEDDEDPROJ_DISPLAYDRIVERTASK_H
+#ifndef EMBEDDEDPROJ_DISPLAYDRIVERTASK_HPP
+#define EMBEDDEDPROJ_DISPLAYDRIVERTASK_HPP
 
 
 #include <string>
-#include "../peripherals/DisplayDriver.h"
+#include "../peripherals/DisplayDriver.hpp"
 #include <utility>
 #include "../Core.h"
 #include <mqueue.h>
@@ -26,4 +26,4 @@ public:
 };
 
 
-#endif //EMBEDDEDPROJ_DISPLAYDRIVERTASK_H
+#endif //EMBEDDEDPROJ_DISPLAYDRIVERTASK_HPP
