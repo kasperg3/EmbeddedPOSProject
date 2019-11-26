@@ -151,20 +151,21 @@ static const char *const pressType[3] = {
         "REPEATED"
 };
 
-
 void keyboardDriverTest(){
 
-    const char *deviceName = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+    //const char *deviceName = "/dev/input/by-path/pci-0000:3e:00.0-usb-0:1.2:1.0-event-kbd"; //Scanner
+    const char *deviceName = "/dev/input/by-path/platform-i8042-serio-0-event-kbd"; //Keyboard
     InputEventDriver driver = InputEventDriver(deviceName);
     while(true){
         input_event inputEvent = driver.readEvent();
         //Check if it's a keyboard state change event.
-        if (inputEvent.type == EV_KEY && inputEvent.value >= 0 && inputEvent.value <= 2)
-            printf("%s 0x%04x (%d)\n", pressType[inputEvent.value], (int)inputEvent.code, (int)inputEvent.code);
+        //inputEvent.type == EV_KEY || inputEvent.type == EV_MSC
+        if (inputEvent.type == EV_KEY)
+            if(inputEvent.value == 1)
+                printf("Value: %s \t Code: 0x%04x (%d) \t Type: %d \n", pressType[inputEvent.value], (int)inputEvent.code, (int)inputEvent.code, inputEvent.type);
         fflush(stdout);
     }
 }
-
 
 int main() {
     init_main();
@@ -175,8 +176,8 @@ int main() {
     //numpadToDisplayTest();
     //exercise1lec5();
     //theBomb();
-    testPosix();
-    //keyboardDriverTest();
+    //testPosix();
+    keyboardDriverTest();
 
     return 0;
 }
