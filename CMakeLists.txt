@@ -12,6 +12,7 @@ set(project_sources
         src/peripherals/DisplayDriver.cpp src/peripherals/DisplayDriver.hpp
         src/peripherals/PushButton.cpp src/peripherals/PushButton.hpp
         src/peripherals/Timer.cpp src/peripherals/Timer.hpp
+        src/peripherals/InputEventDriver.cpp src/peripherals/InputEventDriver.h
 
         src/tasks/NumpadDriverTask.cpp src/tasks/NumpadDriverTask.hpp
         src/tasks/DisplayDriverTask.cpp src/tasks/DisplayDriverTask.hpp
