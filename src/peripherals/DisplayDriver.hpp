@@ -1,43 +1,36 @@
-//
-// Created by kasper on 10/4/19.
-//
+/*
+ * DisplayDriver.h
+ *
+ *  Created on: Oct 8, 2019
+ *      Author: nikolaj
+ */
 
-#ifndef EMBEDDEDPROJ_DISPLAYDRIVER_HPP
-#define EMBEDDEDPROJ_DISPLAYDRIVER_HPP
+#ifndef DISPLAYDRIVER_H_
+#define DISPLAYDRIVER_H_
 
 #include "GPIO.hpp"
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <bitset>
-#include <chrono>
-#include <thread>
 
 class DisplayDriver {
+public:
+	DisplayDriver();
+    int init();
+    int print(int, std::string);
+    int clear();
+
+	~DisplayDriver();
 private:
+    int initGPIOs();
+    int initDisplay();
+    int setDataBits(std::string databits);
+    int pulseEnableSignal();
+    int sendCommand(std::string command);
+    int sendData(std::string data);
+
     GPIO data_bit[8];
     GPIO register_select;
     GPIO read_write;
     GPIO enable;
-    GPIO backlight;
 
-    void initGPIO();
-    void initDisplay();
-    void setDataBits(std::string);
-    void setDataBits(std::bitset<8>);
-    void pulseEnableSignal();
-    void sendCommand(std::string);
-    void sendData(std::string);
-    void sendData(char);
-    void setAddress(int);
-public:
-    DisplayDriver();
-    ~DisplayDriver();
-    void init();
-    void print(int, char);
-    void print(int, std::string);
-    void clear();
 };
 
-
-#endif //EMBEDDEDPROJ_DISPLAYDRIVER_HPP
+#endif /* DISPLAYDRIVER_H_ */

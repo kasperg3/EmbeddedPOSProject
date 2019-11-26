@@ -13,6 +13,8 @@
 
 class GPIO {
 private:
+
+
     std::string pin_number;
 
     int writeToFile(std::string, std::string);
@@ -21,6 +23,7 @@ private:
 public:
     GPIO();
     GPIO(std::string);
+    GPIO(int pin_num);
 
     int setPinNumber(int);
     int exportPin();

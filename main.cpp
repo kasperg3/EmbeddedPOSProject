@@ -68,9 +68,9 @@ void displayDriverTest(){
     displayDriver.init();
     //displayDriver.clear();
 
-    displayDriver.print(5,'c');
-//    displayDriver.print(66, 'W');
-//    displayDriver.print(5, "HERRO");
+    displayDriver.print(0,"c");
+    displayDriver.print(66, "W");
+    displayDriver.print(5, "HERRO");
 }
 
 void numpadToDisplayTest(){
@@ -87,9 +87,9 @@ void numpadToDisplayTest(){
         value = numpadDriver.check();
         if(value != -1 && oldValue != value){
             if(value > 9)
-                displayDriver.print(1, value + 7 + '0'); //Add 7 to reach ascii A
+                displayDriver.print(1, "string"); //Add 7 to reach ascii A
             else
-                displayDriver.print(1, value + '0');
+                displayDriver.print(1, "value0");
 
             oldValue = value;
         }
@@ -154,11 +154,11 @@ int main() {
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
     //ledTest();
     //numpadDriverTest();
-    displayDriverTest();
+    //displayDriverTest();
     //numpadToDisplayTest();
     //exercise1lec5();
     //theBomb();
-
+    testPosix();
 
     return 0;
 }

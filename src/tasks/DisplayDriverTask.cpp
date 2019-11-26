@@ -2,6 +2,7 @@
 // Created by kasper on 10/24/19.
 //
 
+#include <thread>
 #include "DisplayDriverTask.hpp"
 
 
@@ -32,10 +33,12 @@ void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
             printf("[CONSUMER]: Received message: %s \n", buffer);
             displayDriver->print(1,buffer);
         } else {//Wait for messages
-            std::this_thread::sleep_for(std::chrono::milliseconds(500)); //Double the poll speed of producer
+            std::this_thread::sleep_for(std::chrono::milliseconds(5)); //Double the poll speed of producer
         }
         fflush(stdout);
     }
+
+
 
     /* Cleanup */
     printf("[CONSUMER]: Cleanup...\n");

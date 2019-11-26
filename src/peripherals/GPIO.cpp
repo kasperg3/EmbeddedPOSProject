@@ -14,6 +14,10 @@ GPIO::GPIO(std::string pinString) {
     pin_number = pinString;
 }
 
+GPIO::GPIO(int pin_num){
+    pin_number = std::to_string(pin_num);
+}
+
 int GPIO::writeToFile(std::string write_pin_path, std::string value){
 
     // Open file

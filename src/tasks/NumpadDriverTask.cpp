@@ -37,9 +37,11 @@ void *NumpadDriverTask::taskHandler(NumpadDriverTask *numpadDriver) {
             mq_send(mq, buffer, QUEUE_MSGSIZE, 0);
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         fflush(stdout);
     }
+
+
 
     /* Cleanup */
     printf("[PUBLISHER]: Cleanup...\n");
