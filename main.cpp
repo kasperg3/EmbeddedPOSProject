@@ -13,6 +13,7 @@
 #include "src/peripherals/NumpadDriver.hpp"
 #include "src/peripherals/DisplayDriver.hpp"
 #include <chrono>
+#include "src/peripherals/InputEventDriver.h"
 
 //Thread exercise
 #include <pthread.h>
@@ -148,6 +149,26 @@ int theBomb (void)
     return 0;
 }
 
+static const char *const pressType[3] = {
+        "RELEASED",
+        "PRESSED ",
+        "REPEATED"
+};
+
+
+void keyboardDriverTest(){
+
+    const char *deviceName = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+    InputEventDriver driver = InputEventDriver(deviceName);
+    while(true){
+        input_event inputEvent = driver.readEvent();
+        //Check if it's a keyboard state change event.
+        if (inputEvent.type == EV_KEY && inputEvent.value >= 0 && inputEvent.value <= 2)
+            printf("%s 0x%04x (%d)\n", pressType[inputEvent.value], (int)inputEvent.code, (int)inputEvent.code);
+        fflush(stdout);
+    }
+}
+
 
 int main() {
     init_main();
@@ -158,7 +179,8 @@ int main() {
     //numpadToDisplayTest();
     //exercise1lec5();
     //theBomb();
-    testPosix();
+    //testPosix();
+    //keyboardDriverTest();
 
     return 0;
 }
