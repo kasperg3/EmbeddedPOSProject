@@ -43,7 +43,7 @@ int NumpadDriver::getValue() {
     int rowIndex = 0;
     int colIndex = 0;
 
-    int numpadMap[4][4] = {{1,2,3,10},{4,5,6,11},{7,8,9,12},{0,15,14,13}};
+    int numpadMap[4][4] = {{'1','2','3','A'},{'4','5','6','B'},{'7','8','9','C'},{'0','F','E','D'}};
 
     for(int i = 0; i < 4; i++){
         std::string pinValue;

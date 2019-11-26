@@ -87,11 +87,7 @@ void numpadToDisplayTest(){
     while(true){
         value = numpadDriver.check();
         if(value != -1 && oldValue != value){
-            if(value > 9)
-                displayDriver.print(1, "string"); //Add 7 to reach ascii A
-            else
-                displayDriver.print(1, "value0");
-
+            displayDriver.print(1,(char *)value);
             oldValue = value;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -179,7 +175,7 @@ int main() {
     //numpadToDisplayTest();
     //exercise1lec5();
     //theBomb();
-    //testPosix();
+    testPosix();
     //keyboardDriverTest();
 
     return 0;

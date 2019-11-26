@@ -31,7 +31,7 @@ void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
         bytes_read = mq_receive(mq, buffer, QUEUE_MSGSIZE, 0);
         if(bytes_read >= 0) {
             printf("[CONSUMER]: Received message: %s \n", buffer);
-            displayDriver->print(1,buffer);
+            displayDriver->print(0,buffer);
         } else {//Wait for messages
             std::this_thread::sleep_for(std::chrono::milliseconds(5)); //Double the poll speed of producer
         }

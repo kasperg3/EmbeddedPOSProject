@@ -11,9 +11,6 @@ void NumpadDriverTask::setMessageQueue(std::string msg) {
 
 
 void *NumpadDriverTask::taskHandler(NumpadDriverTask *numpadDriver) {
-    //Init numpaddriver
-    //numpadDriver->init();
-
     /* Open the created queue by the consumer. */
     mqd_t mq;
     do {
@@ -30,18 +27,16 @@ void *NumpadDriverTask::taskHandler(NumpadDriverTask *numpadDriver) {
     int value = -1;
     char buffer[QUEUE_MSGSIZE] = "";
     while(th_publisher_running) {
-        value = numpadDriver->check();// displayDriver.print(1, value + '0');
+        value = numpadDriver->check();
         if(value != -1){
-            buffer[0] = (char)value + '0';
-            printf("[PUBLISHER]: Sending message %i ...\n", value);
+            buffer[0] = (char)value;
+            printf("[PUBLISHER]: Sending message %c ...\n", value);
             mq_send(mq, buffer, QUEUE_MSGSIZE, 0);
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
         fflush(stdout);
     }
-
-
 
     /* Cleanup */
     printf("[PUBLISHER]: Cleanup...\n");
