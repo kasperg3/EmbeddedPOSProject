@@ -16,12 +16,13 @@ set(project_sources
 
         src/tasks/NumpadDriverTask.cpp src/tasks/NumpadDriverTask.hpp
         src/tasks/DisplayDriverTask.cpp src/tasks/DisplayDriverTask.hpp
+        src/tasks/CardReaderTask.cpp src/tasks/CardReaderTask.hpp
+        src/tasks/BarcodeScannerTask.cpp src/tasks/BarcodeScannerTask.hpp
 
         src/event_handling/EventHandler.cpp src/event_handling/EventHandler.hpp
         src/event_handling/EventQueue.cpp src/event_handling/EventQueue.hpp
         src/state_handling/BombStateMachine.cpp src/state_handling/BombStateMachine.hpp
-        src/Core.h
-        )
+        src/Core.h src/tasks/KeyboardTask.cpp src/tasks/KeyboardTask.h)
 
 #Adds executable to the bin direcory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
