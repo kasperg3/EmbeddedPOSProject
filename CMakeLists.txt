@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.7)
 project(embeddedProj C CXX)
 
+
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++0x")
 #Set the sources of the project
@@ -21,6 +23,12 @@ set(project_sources
         src/event_handling/EventQueue.cpp src/event_handling/EventQueue.hpp
         src/state_handling/BombStateMachine.cpp src/state_handling/BombStateMachine.hpp
         src/Core.h
+
+        src/database/db_interface.cpp src/database/db_interface.hpp
+        src/database/db_interface_constants.hpp
+        src/database/item.cpp src/database/item.hpp
+        src/database/receipt.cpp src/database/receipt.hpp
+        src/database/simple_item.cpp src/database/simple_item.hpp
         )
 
 #Adds executable to the bin direcory
@@ -30,6 +38,11 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 #posix threads
 find_package (Threads)
 
+
+#database dependency
+find_package(cppzmq)
+
 add_executable(embeddedProj ${project_sources})
 #rt and thread library linkage
-target_link_libraries (embeddedProj ${CMAKE_THREAD_LIBS_INIT} rt)
+target_link_libraries (embeddedProj ${CMAKE_THREAD_LIBS_INIT} cppzmq rt)
+
