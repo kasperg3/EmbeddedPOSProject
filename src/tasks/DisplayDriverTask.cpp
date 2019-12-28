@@ -14,21 +14,21 @@ void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
     //displayDriver->init();
     //displayDriver->clear();
     /* Initialize the queue attributes */
-    struct mq_attr attr = QUEUE_ATTR_INITIALIZER;
+    mq_unlink(QUEUE_NUMPAD);
+    struct mq_attr attr = QUEUE_NUMPAD_ATTR_INITIALIZER;
 
     /* Create the message queue. The queue reader is NONBLOCK. */
-    mqd_t mq = mq_open(QUEUE_NAME, O_CREAT | O_RDONLY, QUEUE_PERMS, &attr);
+    mqd_t mq = mq_open(QUEUE_NUMPAD, O_CREAT | O_RDONLY, QUEUE_NUMPAD_PERMS, &attr);
     if(mq < 0) {
         fprintf(stderr, "[CONSUMER]: Error, cannot open the queue: %s.\n", strerror(errno));
         exit(1);
     }else{    printf("[CONSUMER]: Queue opened, queue descriptor: %d.\n", mq);}
 
-
     ssize_t bytes_read;
-    char buffer[QUEUE_MSGSIZE + 1];
+    char buffer[QUEUE_NUMPAD_MSGSIZE + 1];
     while(th_consumer_running) {
         memset(buffer, 0x00, sizeof(buffer));
-        bytes_read = mq_receive(mq, buffer, QUEUE_MSGSIZE, 0);
+        bytes_read = mq_receive(mq, buffer, QUEUE_NUMPAD_MSGSIZE, 0);
         if(bytes_read >= 0) {
             printf("[CONSUMER]: Received message: %s \n", buffer);
             displayDriver->print(0,buffer);
@@ -38,11 +38,9 @@ void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
         fflush(stdout);
     }
 
-
-
     /* Cleanup */
     printf("[CONSUMER]: Cleanup...\n");
     mq_close(mq);
-    mq_unlink(QUEUE_NAME);
+    mq_unlink(QUEUE_NUMPAD);
 
 }

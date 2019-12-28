@@ -16,11 +16,20 @@ set(project_sources
 
         src/tasks/NumpadDriverTask.cpp src/tasks/NumpadDriverTask.hpp
         src/tasks/DisplayDriverTask.cpp src/tasks/DisplayDriverTask.hpp
+        src/tasks/CardReaderTask.cpp src/tasks/CardReaderTask.hpp
+        src/tasks/BarcodeScannerTask.cpp src/tasks/BarcodeScannerTask.hpp
 
         src/event_handling/EventHandler.cpp src/event_handling/EventHandler.hpp
         src/event_handling/EventQueue.cpp src/event_handling/EventQueue.hpp
         src/state_handling/BombStateMachine.cpp src/state_handling/BombStateMachine.hpp
         src/Core.h
+        src/tasks/KeyboardTask.cpp src/tasks/KeyboardTask.h
+
+        src/database/db_interface.cpp src/database/db_interface.hpp
+        src/database/db_interface_constants.hpp
+        src/database/item.cpp src/database/item.hpp
+        src/database/receipt.cpp src/database/receipt.hpp
+        src/database/simple_item.cpp src/database/simple_item.hpp
         )
 
 #Adds executable to the bin direcory
@@ -30,6 +39,11 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 #posix threads
 find_package (Threads)
 
+
+#database dependency
+find_package(cppzmq)
+
 add_executable(embeddedProj ${project_sources})
 #rt and thread library linkage
-target_link_libraries (embeddedProj ${CMAKE_THREAD_LIBS_INIT} rt)
+target_link_libraries (embeddedProj ${CMAKE_THREAD_LIBS_INIT} cppzmq rt)
+

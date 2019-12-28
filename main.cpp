@@ -25,6 +25,9 @@
 #include "src/tasks/NumpadDriverTask.hpp"
 #include "src/tasks/DisplayDriverTask.hpp"
 #include "src/state_handling/BombStateMachine.hpp"
+#include "src/tasks/BarcodeScannerTask.hpp"
+#include "src/tasks/CardReaderTask.hpp"
+#include <sys/ioctl.h>
 
 
 int init_main(){
@@ -145,26 +148,64 @@ int theBomb (void)
     return 0;
 }
 
-static const char *const pressType[3] = {
-        "RELEASED",
-        "PRESSED ",
-        "REPEATED"
-};
+
 
 void keyboardDriverTest(){
-
-    //const char *deviceName = "/dev/input/by-path/pci-0000:3e:00.0-usb-0:1.2:1.0-event-kbd"; //Scanner
-    const char *deviceName = "/dev/input/by-path/platform-i8042-serio-0-event-kbd"; //Keyboard
+    // CardReader and scanner only works on Zybo
+    const char *deviceName = "/dev/input/by-id/usb-USB_Adapter_USB_Device-event-kbd"; //Scanner
+    //const char *deviceName = "/dev/input/by-id/usb-c216_0180-event-kbd";//Card Reader
+    //const char *deviceName = "/dev/input/by-path/platform-i8042-serio-0-event-kbd"; //Keyboard
     InputEventDriver driver = InputEventDriver(deviceName);
+
+
     while(true){
         input_event inputEvent = driver.readEvent();
-        //Check if it's a keyboard state change event.
         //inputEvent.type == EV_KEY || inputEvent.type == EV_MSC
         if (inputEvent.type == EV_KEY)
             if(inputEvent.value == 1)
                 printf("Value: %s \t Code: 0x%04x (%d) \t Type: %d \n", pressType[inputEvent.value], (int)inputEvent.code, (int)inputEvent.code, inputEvent.type);
         fflush(stdout);
     }
+}
+
+
+void testBarcodeScannerTask(){
+
+    BarcodeScannerTask barcodeScannerTask();
+    pthread_t barcodePublisher;
+
+    const char *deviceName = BARCODE_SCANNER_PATH; //Scanner
+    InputEventDriver barcodeEventDriver(deviceName);
+
+    uid_t user_id = getuid();
+    if(user_id > 0) {
+        printf("Run as root.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    pthread_create(&barcodePublisher, NULL, reinterpret_cast<void *(*)(void *)>(BarcodeScannerTask::taskHandler), &barcodeEventDriver);
+    pthread_join(barcodePublisher, NULL);
+
+}
+
+
+void testCardReaderTask(){
+
+    CardReaderTask cardReaderTask();
+    pthread_t cardReaderPublisher;
+
+    const char *deviceName = CARDREADER_PATH; //Card Reader
+    InputEventDriver cardReaderEventDriver(deviceName);
+
+    uid_t user_id = getuid();
+    if(user_id > 0) {
+        printf("Run as root.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    pthread_create(&cardReaderPublisher, NULL, reinterpret_cast<void *(*)(void *)>(CardReaderTask::taskHandler), &cardReaderEventDriver);
+    pthread_join(cardReaderPublisher, NULL);
+
 }
 
 int main() {
@@ -177,7 +218,8 @@ int main() {
     //exercise1lec5();
     //theBomb();
     //testPosix();
-    keyboardDriverTest();
-
+    //keyboardDriverTest();
+    //testBarcodeScannerTask();
+    testCardReaderTask();
     return 0;
 }
