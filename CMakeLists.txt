@@ -24,13 +24,15 @@ set(project_sources
         src/event_handling/EventQueue.cpp src/event_handling/EventQueue.hpp
         src/state_handling/BombStateMachine.cpp src/state_handling/BombStateMachine.hpp
         src/Core.h
+        src/tasks/KeyboardTask.cpp src/tasks/KeyboardTask.h
+        src/utilities/queue.cpp src/utilities/queue.h
 
         src/database/db_interface.cpp src/database/db_interface.hpp
         src/database/db_interface_constants.hpp
         src/database/item.cpp src/database/item.hpp
         src/database/receipt.cpp src/database/receipt.hpp
         src/database/simple_item.cpp src/database/simple_item.hpp
-        )
+        src/tasks/ReceiptPrinterTask.cpp src/tasks/ReceiptPrinterTask.hpp)
 
 #Adds executable to the bin direcory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

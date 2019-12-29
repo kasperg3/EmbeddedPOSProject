@@ -15,6 +15,7 @@
 #include <chrono>
 #include "src/peripherals/InputEventDriver.h"
 #include "src/database/db_interface.hpp"
+#include "src/utilities/queue.h"
 
 
 //Thread exercise
@@ -31,6 +32,29 @@
 #include "src/tasks/CardReaderTask.hpp"
 #include <sys/ioctl.h>
 
+void mqueuetest(){
+    const int MAXMSG = 10;
+    const int MSGSIZE = 1024;
+    const char* queue_name = "/test_queue";
+
+    Queue q(queue_name, 0, MAXMSG, MSGSIZE);
+    Queue q2(queue_name, O_WRONLY);
+    Queue q3(queue_name, O_RDONLY);
+
+    for(int i = 0; i < 8; i++)
+        q2.send("hellofellow" + std::to_string(i));
+
+    for(int i = 0; i < 5; i++)
+        std::cout << q3.receive() << std::endl;
+
+    //q.flush();
+    //q2.flush();
+    q3.flush();
+
+    if(q2.empty())
+        std::cout << "The queue is empty" << std::endl;
+
+}
 
 int init_main(){
     struct utsname buffer{};
@@ -182,15 +206,20 @@ void receipt_and_database_test()
     //receipt.print();
     dbi.completeTransaction(receipt);
     //receipt.stringifyLine(receipt.getReceiptLines()[0]);
-    std::string receipt_string = receipt.stringifyReceipt();
+   std::string receipt_string = receipt.stringifyReceipt();
 
-    std::ofstream myfile;
+// MOVED TO RECEIPTPRINTERTASK
+/*  std::ofstream myfile;
     myfile.open("receipt.txt");
     myfile << receipt_string;
     myfile.close();
     std::string command_string = "lp receipt.txt";
 
     system(command_string.c_str());
+*/
+    Queue receiptQ(QUEUE_RECEIPT, O_WRONLY);
+
+
 
 }
 
@@ -234,13 +263,32 @@ void testCardReaderTask(){
 
 }
 
+void receiptPrinterTask(){
+
+    BarcodeScannerTask barcodeScannerTask();
+    pthread_t barcodePublisher;
+
+    const char *deviceName = BARCODE_SCANNER_PATH; //Scanner
+    InputEventDriver barcodeEventDriver(deviceName);
+
+    uid_t user_id = getuid();
+    if(user_id > 0) {
+        printf("Run as root.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    pthread_create(&barcodePublisher, NULL, reinterpret_cast<void *(*)(void *)>(BarcodeScannerTask::taskHandler), &barcodeEventDriver);
+    pthread_join(barcodePublisher, NULL);
+
+}
+
 int main() {
     init_main();
 
 
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
-    receipt_and_database_test();
-
+    //receipt_and_database_test();
+    //mqueuetest();
     //ledTest();
     //numpadDriverTest();
     //displayDriverTest();
@@ -250,6 +298,6 @@ int main() {
     //testPosix();
     //keyboardDriverTest();
     //testBarcodeScannerTask();
-    testCardReaderTask();
+    //testCardReaderTask();
     return 0;
 }
