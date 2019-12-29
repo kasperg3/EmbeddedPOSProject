@@ -30,6 +30,7 @@
 #include "src/state_handling/BombStateMachine.hpp"
 #include "src/tasks/BarcodeScannerTask.hpp"
 #include "src/tasks/CardReaderTask.hpp"
+#include "src/tasks/ReceiptPrinterTask.hpp"
 #include <sys/ioctl.h>
 
 void mqueuetest(){
@@ -203,22 +204,11 @@ void receipt_and_database_test()
     receipt.addReceiptLine(pepsi.getId(), pepsi.getName(), pepsi.getUnitPrice(), 2); //Add two pepsis
 
     receipt.setPaymentStatus("payed"); //When should you actually do this?
-    //receipt.print();
     dbi.completeTransaction(receipt);
-    //receipt.stringifyLine(receipt.getReceiptLines()[0]);
-   std::string receipt_string = receipt.stringifyReceipt();
-
-// MOVED TO RECEIPTPRINTERTASK
-/*  std::ofstream myfile;
-    myfile.open("receipt.txt");
-    myfile << receipt_string;
-    myfile.close();
-    std::string command_string = "lp receipt.txt";
-
-    system(command_string.c_str());
-*/
-    Queue receiptQ(QUEUE_RECEIPT, O_WRONLY);
-
+    std::string receipt_string = receipt.stringifyReceipt();
+    Queue receiptQ(QUEUE_RECEIPT,O_WRONLY,QUEUE_RECEIPT_MAXMSG,QUEUE_RECEIPT_MSGSIZE);
+//    Queue receiptQ(QUEUE_RECEIPT, O_WRONLY);
+    receiptQ.send(receipt_string);
 
 
 }
@@ -263,22 +253,19 @@ void testCardReaderTask(){
 
 }
 
-void receiptPrinterTask(){
+void testReceiptPrinterTask(){
 
-    BarcodeScannerTask barcodeScannerTask();
-    pthread_t barcodePublisher;
-
-    const char *deviceName = BARCODE_SCANNER_PATH; //Scanner
-    InputEventDriver barcodeEventDriver(deviceName);
+    ReceiptPrinterTask receiptPrinterTask();
+    pthread_t receiptConsumer;
 
     uid_t user_id = getuid();
     if(user_id > 0) {
-        printf("Run as root.\n");
+        printf("Run as root (RPT).\n");
         exit(EXIT_FAILURE);
     }
 
-    pthread_create(&barcodePublisher, NULL, reinterpret_cast<void *(*)(void *)>(BarcodeScannerTask::taskHandler), &barcodeEventDriver);
-    pthread_join(barcodePublisher, NULL);
+    pthread_create(&receiptConsumer, NULL, reinterpret_cast<void *(*)(void *)>(ReceiptPrinterTask::taskHandler), NULL);
+    pthread_join(receiptConsumer, NULL);
 
 }
 
@@ -288,6 +275,7 @@ int main() {
 
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
     //receipt_and_database_test();
+    //testReceiptPrinterTask();
     //mqueuetest();
     //ledTest();
     //numpadDriverTest();

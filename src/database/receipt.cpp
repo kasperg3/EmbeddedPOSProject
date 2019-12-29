@@ -71,7 +71,7 @@ std::string Receipt::stringifyLine(ReceiptLine line) {
     stream2 << std::fixed << std::setprecision(2) << totalPrice;
     std::string s2 = stream2.str();
 
-    std::string out_line = name +" x"+std::to_string(quantity)+" $"+ s+ + "\n itemtotal: " + "$"+s2+"\n";
+    std::string out_line = name +" x"+std::to_string(quantity)+" $"+ s2;//+ + "\n itemtotal: " + "$"+s2+"\n";
    // std::cout << "outline:\n" << out_line << std::endl;
     return out_line;
 }
