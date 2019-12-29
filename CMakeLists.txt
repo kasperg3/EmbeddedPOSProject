@@ -30,7 +30,10 @@ set(project_sources
         src/database/item.cpp src/database/item.hpp
         src/database/receipt.cpp src/database/receipt.hpp
         src/database/simple_item.cpp src/database/simple_item.hpp
-        )
+        src/peripherals/CustomerDisplay.cpp
+        src/peripherals/CustomerDisplay.hpp
+        src/tasks/CustomerDisplayTask.cpp
+        src/tasks/CustomerDisplayTask.hpp)
 
 #Adds executable to the bin direcory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

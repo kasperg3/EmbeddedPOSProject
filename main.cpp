@@ -14,6 +14,7 @@
 #include "src/peripherals/DisplayDriver.hpp"
 #include <chrono>
 #include "src/peripherals/InputEventDriver.h"
+#include "src/peripherals/CustomerDisplay.hpp"
 
 //Thread exercise
 #include <pthread.h>
@@ -25,6 +26,7 @@
 #include "src/tasks/NumpadDriverTask.hpp"
 #include "src/tasks/DisplayDriverTask.hpp"
 #include "src/state_handling/BombStateMachine.hpp"
+#include "src/tasks/CustomerDisplayTask.hpp"
 #include "src/tasks/BarcodeScannerTask.hpp"
 #include "src/tasks/CardReaderTask.hpp"
 #include <sys/ioctl.h>
@@ -208,6 +210,23 @@ void testCardReaderTask(){
 
 }
 
+void CustomerDisplayTest(){
+    CustomerDisplayTask CD_task;
+
+    CustomerDisplay customerDisplay;
+
+    pthread_t CDConsumer;
+
+    pthread_create(&CDConsumer, NULL, reinterpret_cast<void *(*)(void *)>(CustomerDisplayTask::taskHandler), &customerDisplay);
+
+    pthread_join(CDConsumer, NULL);
+
+
+//    CustomerDisplay display;
+//    display.print(1,"It Works \nYo bro");
+
+}
+
 int main() {
     init_main();
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
@@ -218,8 +237,20 @@ int main() {
     //exercise1lec5();
     //theBomb();
     //testPosix();
+//    keyboardDriverTest();
+
+    struct mq_attr attr = QUEUE_ATTR_INITIALIZER;
+    mq_unlink(CUSTOMER_DISPLAY_QUEUE_NAME);
+    mqd_t mq = mq_open(CUSTOMER_DISPLAY_QUEUE_NAME, O_CREAT, QUEUE_PERMS, &attr);
+    if ( mq < 0) {
+        std::cout << strerror(errno) << std::endl;
+    }
+    CustomerDisplayTask task;
+//    CustomerDisplayTest();
+    task.setMessageQueue("Hi");
+
     //keyboardDriverTest();
     //testBarcodeScannerTask();
-    testCardReaderTask();
+    //testCardReaderTask();
     return 0;
 }
