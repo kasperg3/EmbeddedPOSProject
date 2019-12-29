@@ -106,12 +106,11 @@ static char *shift_key_names[] = {
 #define QUEUE_CARDREADER_MSGSIZE 16 /* Length of message. */
 #define QUEUE_CARDREADER_ATTR_INITIALIZER ((struct mq_attr){0, QUEUE_BARCODE_MAXMSG, QUEUE_BARCODE_MSGSIZE, 0, {0}})
 #define QUEUE_NAME  "/test_queue" /* Queue name. */
-#define QUEUE_PERMS ((int)(0644))
-#define QUEUE_MAXMSG  10 /* Maximum number of messages. */
-#define QUEUE_MSGSIZE 1 /* Length of message. */
-#define CUSTOMER_DISPLAY_QUEUE_NAME "/customer_display_queue" /* Customer queue display name */
+#define CD_QUEUE_PERMS ((int)(0644))
+#define CD_QUEUE_MAXMSG  10 /* Maximum number of messages. */
+#define CUSTOMER_DISPLAY_QUEUE_NAME "/cd_queue" /* Customer queue display name */
 #define CD_QUEUE_MSGSIZE 128 /* Length of message. */
-#define QUEUE_ATTR_INITIALIZER ((struct mq_attr){0, QUEUE_MAXMSG, CD_QUEUE_MSGSIZE, 0, {0}})
+#define CD_QUEUE_ATTR_INITIALIZER ((struct mq_attr){0, CD_QUEUE_MAXMSG, CD_QUEUE_MSGSIZE, 0, {0}})
 
 
 /* The consumer is faster than the publisher. */
