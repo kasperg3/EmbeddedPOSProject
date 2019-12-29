@@ -20,8 +20,8 @@ class CustomerDisplayTask : CustomerDisplay {
 
 public:
     std::string message_queue_descriptor;
-
-    void setMessageQueue(std::string);
+    void createQueue();
+    void sendMessageToQ(std::string);
     static void *taskHandler(CustomerDisplayTask *customerDisplay);
 
 private:

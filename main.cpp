@@ -293,19 +293,18 @@ void testKeyboardTask(){
 
 void CustomerDisplayTest(){
     CustomerDisplayTask CD_task;
-    CD_task.setMessageQueue("Brain \n$10");
+    CD_task.createQueue();
+
+    CD_task.sendMessageToQ("Brain \n$10");
+    sleep(2);
+    CD_task.sendMessageToQ("YOLO \n$0500");
+    sleep(2);
+    CD_task.sendMessageToQ("Braincell \n$100");
 
     CustomerDisplay customerDisplay;
-
     pthread_t CDConsumer;
-
     pthread_create(&CDConsumer, NULL, reinterpret_cast<void *(*)(void *)>(CustomerDisplayTask::taskHandler), &customerDisplay);
-
     pthread_join(CDConsumer, NULL);
-
-
-//    CustomerDisplay display;
-//    display.print(1,"It Works \nYo bro");
 
 }
 
@@ -329,5 +328,6 @@ int main() {
     //testCardReaderTask();
     //testKeyboardTask();
     //CustomerDisplayTest();
+
     return 0;
 }
