@@ -82,3 +82,7 @@ void Queue::send(char *message) {
     if(mq_send(queue_handle, message, queue_attributes.mq_msgsize, 0) == -1)
         printf("[Queue] Could not send to queue %s - %s\n", queue_name, strerror(errno));
 }
+
+Queue::Queue() {
+
+}

@@ -10,7 +10,7 @@ set(project_sources
         src/peripherals/CardReader.cpp src/peripherals/CardReader.hpp
         src/peripherals/NumpadDriver.cpp src/peripherals/NumpadDriver.hpp
         src/peripherals/DisplayDriver.cpp src/peripherals/DisplayDriver.hpp
-        src/peripherals/PushButton.cpp src/peripherals/PushButton.hpp
+        src/event_handling/PushButton.cpp src/event_handling/PushButton.hpp
         src/peripherals/Timer.cpp src/peripherals/Timer.hpp
         src/peripherals/InputEventDriver.cpp src/peripherals/InputEventDriver.h
 
@@ -22,6 +22,7 @@ set(project_sources
 
         src/event_handling/EventHandler.cpp src/event_handling/EventHandler.hpp
         src/event_handling/EventQueue.cpp src/event_handling/EventQueue.hpp
+        src/state_handling/StateMachine.cpp src/state_handling/StateMachine.h
         src/state_handling/BombStateMachine.cpp src/state_handling/BombStateMachine.hpp
         src/Core.h
         src/tasks/KeyboardTask.cpp src/tasks/KeyboardTask.h
@@ -45,15 +46,12 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 #posix threads
 find_package (Threads)
 
-
 #database dependency
 find_package(cppzmq)
 
-add_executable(embeddedProj ${project_sources} main.cpp)
+#add_executable(embeddedProj ${project_sources} main.cpp )
 #rt and thread library linkage
-target_link_libraries (embeddedProj ${CMAKE_THREAD_LIBS_INIT} cppzmq rt)
-
-
+#target_link_libraries (embeddedProj ${CMAKE_THREAD_LIBS_INIT} cppzmq rt)
 
 add_executable(state_machine_prog ${project_sources} state_machine_main.cpp)
 #rt and thread library linkage

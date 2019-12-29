@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
-#include "../peripherals/PushButton.hpp"
+#include "../event_handling/PushButton.hpp"
 #include "../peripherals/Timer.hpp"
 #include "../event_handling/EventQueue.hpp"
 
