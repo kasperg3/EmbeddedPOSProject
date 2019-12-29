@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++0x")
 #Set the sources of the project
 set(project_sources
-        main.cpp
+        #main.cpp state_machine_main.cpp
         src/peripherals/GPIO.cpp src/peripherals/GPIO.hpp
         src/peripherals/CardReader.cpp src/peripherals/CardReader.hpp
         src/peripherals/NumpadDriver.cpp src/peripherals/NumpadDriver.hpp
@@ -49,7 +49,13 @@ find_package (Threads)
 #database dependency
 find_package(cppzmq)
 
-add_executable(embeddedProj ${project_sources})
+add_executable(embeddedProj ${project_sources} main.cpp)
 #rt and thread library linkage
 target_link_libraries (embeddedProj ${CMAKE_THREAD_LIBS_INIT} cppzmq rt)
+
+
+
+add_executable(state_machine_prog ${project_sources} state_machine_main.cpp)
+#rt and thread library linkage
+target_link_libraries (state_machine_prog ${CMAKE_THREAD_LIBS_INIT} cppzmq rt)
 
