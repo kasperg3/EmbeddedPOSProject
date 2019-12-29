@@ -10,7 +10,8 @@
 
 #define BARCODE_SCANNER_PATH "/dev/input/by-id/usb-USB_Adapter_USB_Device-event-kbd"; //Scanner
 #define CARDREADER_PATH "/dev/input/by-id/usb-c216_0180-event-kbd";//Card Reader
-#define KEYBOARD_PATH "/dev/input/by-path/platform-i8042-serio-0-event-kbd"; //Keyboard
+//#define KEYBOARD_PATH "/dev/input/by-path/platform-i8042-serio-0-event-kbd"; //Keyboard Kasper pc
+#define KEYBOARD_PATH "/dev/input/by-id/usb-SEM_USB_Keyboard-event-kbd"; //Keyboard zybo
 
 //InputEvent types
 static const char *const pressType[3] = {
