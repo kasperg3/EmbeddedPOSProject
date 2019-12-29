@@ -118,6 +118,12 @@ static char *shift_key_names[] = {
 #define QUEUE_POLL_CONSUMER ((struct timespec){2, 500000000})
 #define QUEUE_POLL_PUBLISHER ((struct timespec){5, 0})
 
+#define QUEUE_RECEIPT  "/receipt_queue" /* Queue name. */
+#define QUEUE_RECEIPT_PERMS ((int)(0644))
+#define QUEUE_RECEIPT_MAXMSG  5 /* Maximum number of messages. */
+#define QUEUE_RECEIPT_MSGSIZE 2050 /* Length of message. Shouldn't be longer than this 10 items with max 20 chars per line*/
+#define QUEUE_RECEIPT_ATTR_INITIALIZER ((struct mq_attr){0, QUEUE_RECEIPT_MAXMSG, QUEUE_RECEIPT_MSGSIZE, 0, {0}})
+
 static bool th_consumer_running = true;
 static bool th_publisher_running = true;
 

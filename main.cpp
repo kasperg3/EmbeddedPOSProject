@@ -14,8 +14,8 @@
 #include "src/peripherals/DisplayDriver.hpp"
 #include <chrono>
 #include "src/peripherals/InputEventDriver.h"
-#include "src/peripherals/CustomerDisplay.hpp"
 #include "src/database/db_interface.hpp"
+#include "src/utilities/queue.h"
 
 
 //Thread exercise
@@ -28,11 +28,33 @@
 #include "src/tasks/NumpadDriverTask.hpp"
 #include "src/tasks/DisplayDriverTask.hpp"
 #include "src/state_handling/BombStateMachine.hpp"
-#include "src/tasks/CustomerDisplayTask.hpp"
 #include "src/tasks/BarcodeScannerTask.hpp"
 #include "src/tasks/CardReaderTask.hpp"
 #include <sys/ioctl.h>
 
+void mqueuetest(){
+    const int MAXMSG = 10;
+    const int MSGSIZE = 1024;
+    const char* queue_name = "/test_queue";
+
+    Queue q(queue_name, 0, MAXMSG, MSGSIZE);
+    Queue q2(queue_name, O_WRONLY);
+    Queue q3(queue_name, O_RDONLY);
+
+    for(int i = 0; i < 8; i++)
+        q2.send("hellofellow" + std::to_string(i));
+
+    for(int i = 0; i < 5; i++)
+        std::cout << q3.receive() << std::endl;
+
+    //q.flush();
+    //q2.flush();
+    q3.flush();
+
+    if(q2.empty())
+        std::cout << "The queue is empty" << std::endl;
+
+}
 
 int init_main(){
     struct utsname buffer{};
@@ -184,15 +206,20 @@ void receipt_and_database_test()
     //receipt.print();
     dbi.completeTransaction(receipt);
     //receipt.stringifyLine(receipt.getReceiptLines()[0]);
-    std::string receipt_string = receipt.stringifyReceipt();
+   std::string receipt_string = receipt.stringifyReceipt();
 
-    std::ofstream myfile;
+// MOVED TO RECEIPTPRINTERTASK
+/*  std::ofstream myfile;
     myfile.open("receipt.txt");
     myfile << receipt_string;
     myfile.close();
     std::string command_string = "lp receipt.txt";
 
     system(command_string.c_str());
+*/
+    Queue receiptQ(QUEUE_RECEIPT, O_WRONLY);
+
+
 
 }
 
@@ -236,20 +263,22 @@ void testCardReaderTask(){
 
 }
 
-void CustomerDisplayTest(){
-    CustomerDisplayTask CD_task;
+void receiptPrinterTask(){
 
-    CustomerDisplay customerDisplay;
+    BarcodeScannerTask barcodeScannerTask();
+    pthread_t barcodePublisher;
 
-    pthread_t CDConsumer;
+    const char *deviceName = BARCODE_SCANNER_PATH; //Scanner
+    InputEventDriver barcodeEventDriver(deviceName);
 
-    pthread_create(&CDConsumer, NULL, reinterpret_cast<void *(*)(void *)>(CustomerDisplayTask::taskHandler), &customerDisplay);
+    uid_t user_id = getuid();
+    if(user_id > 0) {
+        printf("Run as root.\n");
+        exit(EXIT_FAILURE);
+    }
 
-    pthread_join(CDConsumer, NULL);
-
-
-//    CustomerDisplay display;
-//    display.print(1,"It Works \nYo bro");
+    pthread_create(&barcodePublisher, NULL, reinterpret_cast<void *(*)(void *)>(BarcodeScannerTask::taskHandler), &barcodeEventDriver);
+    pthread_join(barcodePublisher, NULL);
 
 }
 
@@ -258,8 +287,8 @@ int main() {
 
 
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
-    receipt_and_database_test();
-
+    //receipt_and_database_test();
+    //mqueuetest();
     //ledTest();
     //numpadDriverTest();
     //displayDriverTest();
@@ -267,18 +296,6 @@ int main() {
     //exercise1lec5();
     //theBomb();
     //testPosix();
-//    keyboardDriverTest();
-
-    struct mq_attr attr = QUEUE_ATTR_INITIALIZER;
-    mq_unlink(CUSTOMER_DISPLAY_QUEUE_NAME);
-    mqd_t mq = mq_open(CUSTOMER_DISPLAY_QUEUE_NAME, O_CREAT, QUEUE_PERMS, &attr);
-    if ( mq < 0) {
-        std::cout << strerror(errno) << std::endl;
-    }
-    CustomerDisplayTask task;
-//    CustomerDisplayTest();
-    task.setMessageQueue("Hi");
-
     //keyboardDriverTest();
     //testBarcodeScannerTask();
     //testCardReaderTask();
