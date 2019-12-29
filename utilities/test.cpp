@@ -1,4 +1,5 @@
 #include "queue_utils.hpp"
+#include "queue.h"
 
 #include <fcntl.h>           /* For O_* constants */
 #include <sys/stat.h>        /* For mode constants */
@@ -15,18 +16,22 @@ const char* queue_name = "/test_queue";
 
 int main(int argc, char* argv[])
 {
-    create_queue(queue_name, MAXMSG, MSGSIZE);
-//    create_queue("/another_queue", 5, 100);
+
+    Queue q(queue_name, 0, MAXMSG, MSGSIZE);
+    Queue q2(queue_name, O_WRONLY);
+    Queue q3(queue_name, O_RDONLY);
 
     for(int i = 0; i < 8; i++)
-        send_message_to_queue(queue_name, "hellofellow" + to_string(i));
+        q2.send("hellofellow" + to_string(i));
 
     for(int i = 0; i < 5; i++)
-        cout << receive_message_from_queue(queue_name) << endl;
+        cout << q3.receive() << endl;
 
-    flush_queue(queue_name);
+    //q.flush();
+    //q2.flush();
+    q3.flush();
 
-    if(queue_is_empty(queue_name))
+    if(q2.empty())
         cout << "The queue is empty" << endl;
 
 	return 0;
