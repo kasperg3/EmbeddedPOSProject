@@ -16,7 +16,7 @@ void StateMachine::init(void) {
     customerDisplayQueue = Queue(CUSTOMER_DISPLAY_QUEUE_NAME, O_WRONLY, CD_QUEUE_MAXMSG, CD_QUEUE_MSGSIZE);
     receiptQueue = Queue(QUEUE_RECEIPT, O_WRONLY, QUEUE_RECEIPT_MAXMSG, QUEUE_RECEIPT_MSGSIZE);
 
-
+    //TODO Instanciate the worker threads
 
 }
 
@@ -39,9 +39,14 @@ void StateMachine::checkInputs() {
     cardInput = cardQueue.receive();
     customerDisplayInput = customerDisplayQueue.receive();
     receiptInput = receiptQueue.receive();
+
+    //TODO Check if this works
+
 }
 
 void StateMachine::updateState() {
+
+    //TODO Implement state logic, eg, if barcode is scanned in scan state, add item to receipt
 
 
 }
