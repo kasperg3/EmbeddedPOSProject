@@ -14,12 +14,12 @@
 class Queue
 {
 public:
-    Queue() {}
     Queue(const char *queue_name, int flags);
     Queue(const char* queue_name, int flags, int maxmsg, int msgsize);
 
     bool empty();
     void send(std::string message);
+    void send(char *message);
     std::string receive();
     void flush();
 

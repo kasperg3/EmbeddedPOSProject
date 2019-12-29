@@ -103,8 +103,13 @@ static char *shift_key_names[] = {
 #define QUEUE_CARDREADER  "/cardreader_queue" /* Queue name. */
 #define QUEUE_CARDREADER_PERMS ((int)(0644))
 #define QUEUE_CARDREADER_MAXMSG  20 /* Maximum number of messages. */
-#define QUEUE_CARDREADER_MSGSIZE 16 /* Length of message. */
+#define QUEUE_CARDREADER_MSGSIZE 17 /* Length of message. */
 #define QUEUE_CARDREADER_ATTR_INITIALIZER ((struct mq_attr){0, QUEUE_BARCODE_MAXMSG, QUEUE_BARCODE_MSGSIZE, 0, {0}})
+
+//KeyBoard QUEUE Defines
+#define QUEUE_KEYBOARD  "/keyboard_queue" /* Queue name. */
+#define QUEUE_KEYBOARD_MAXMSG  16 /* Maximum number of messages. */
+#define QUEUE_KEYBOARD_MSGSIZE 8 /* Length of message. */
 
 /* The consumer is faster than the publisher. */
 #define QUEUE_POLL_CONSUMER ((struct timespec){2, 500000000})

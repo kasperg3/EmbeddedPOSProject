@@ -30,6 +30,7 @@
 #include "src/state_handling/BombStateMachine.hpp"
 #include "src/tasks/BarcodeScannerTask.hpp"
 #include "src/tasks/CardReaderTask.hpp"
+#include "src/tasks/KeyboardTask.h"
 #include <sys/ioctl.h>
 
 void mqueuetest(){
@@ -182,8 +183,6 @@ void keyboardDriverTest(){
     //const char *deviceName = "/dev/input/by-id/usb-c216_0180-event-kbd";//Card Reader
     //const char *deviceName = "/dev/input/by-path/platform-i8042-serio-0-event-kbd"; //Keyboard
     InputEventDriver driver = InputEventDriver(deviceName);
-
-
     while(true){
         input_event inputEvent = driver.readEvent();
         //inputEvent.type == EV_KEY || inputEvent.type == EV_MSC
@@ -263,6 +262,25 @@ void testCardReaderTask(){
 
 }
 
+void testKeyboardTask(){
+
+    KeyboardTask keyboardTask();
+    pthread_t keyboardPublisher;
+
+    const char *deviceName = KEYBOARD_PATH; //Card Reader
+    InputEventDriver keyboardEventDriver(deviceName);
+
+    uid_t user_id = getuid();
+    if(user_id > 0) {
+        printf("Run as root.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    pthread_create(&keyboardPublisher, NULL, reinterpret_cast<void *(*)(void *)>(KeyboardTask::taskHandler), &keyboardEventDriver);
+    pthread_join(keyboardPublisher, NULL);
+
+}
+
 void receiptPrinterTask(){
 
     BarcodeScannerTask barcodeScannerTask();
@@ -284,11 +302,8 @@ void receiptPrinterTask(){
 
 int main() {
     init_main();
-
-
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
-    //receipt_and_database_test();
-    //mqueuetest();
+    //receipt_and_database_test();//mqueuetest();
     //ledTest();
     //numpadDriverTest();
     //displayDriverTest();
@@ -299,5 +314,6 @@ int main() {
     //keyboardDriverTest();
     //testBarcodeScannerTask();
     //testCardReaderTask();
+    //testKeyboardTask();
     return 0;
 }

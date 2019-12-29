@@ -13,6 +13,9 @@
 
 class KeyboardTask : InputEventDriver{
 
+public:
+    static void *taskHandler(KeyboardTask *keyboardTask);
+
 };
 
 
