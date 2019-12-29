@@ -9,6 +9,11 @@
 #define RECEIPT_HPP_
 
 #include "item.hpp"
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <iomanip>      // std::setprecision
+#include <sstream>
 
 typedef long int ReceiptNumber;
 typedef std::string PaymentStatus;
@@ -49,6 +54,8 @@ public:
 	void addReceiptLine(ItemId, Name, Price, Quantity);
 	void addReceiptLine(ReceiptLine);
 	void removeReceiptLine(Position);
+    std::string stringifyLine(ReceiptLine line);
+    std::string stringifyReceipt();
 };
 
 #endif /* RECEIPT_HPP_ */

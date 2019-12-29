@@ -15,6 +15,8 @@
 #include <chrono>
 #include "src/peripherals/InputEventDriver.h"
 #include "src/peripherals/CustomerDisplay.hpp"
+#include "src/database/db_interface.hpp"
+
 
 //Thread exercise
 #include <pthread.h>
@@ -169,6 +171,30 @@ void keyboardDriverTest(){
         fflush(stdout);
     }
 }
+void receipt_and_database_test()
+{
+    DatabaseInterface dbi;
+    Receipt receipt = dbi.createNewReceipt();
+    SimpleItem snickers = dbi.getSimpleItemById(112);
+    SimpleItem pepsi = dbi.getSimpleItemByName("Pepsi");
+    receipt.addReceiptLine(snickers.getId(), snickers.getName(), snickers.getUnitPrice(), 2); //Add two snickers to receipt
+    receipt.addReceiptLine(pepsi.getId(), pepsi.getName(), pepsi.getUnitPrice(), 2); //Add two pepsis
+
+    receipt.setPaymentStatus("payed"); //When should you actually do this?
+    //receipt.print();
+    dbi.completeTransaction(receipt);
+    //receipt.stringifyLine(receipt.getReceiptLines()[0]);
+    std::string receipt_string = receipt.stringifyReceipt();
+
+    std::ofstream myfile;
+    myfile.open("receipt.txt");
+    myfile << receipt_string;
+    myfile.close();
+    std::string command_string = "lp receipt.txt";
+
+    system(command_string.c_str());
+
+}
 
 
 void testBarcodeScannerTask(){
@@ -229,7 +255,11 @@ void CustomerDisplayTest(){
 
 int main() {
     init_main();
+
+
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
+    receipt_and_database_test();
+
     //ledTest();
     //numpadDriverTest();
     //displayDriverTest();
