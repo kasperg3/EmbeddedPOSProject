@@ -10,7 +10,8 @@
 
 #define BARCODE_SCANNER_PATH "/dev/input/by-id/usb-USB_Adapter_USB_Device-event-kbd"; //Scanner
 #define CARDREADER_PATH "/dev/input/by-id/usb-c216_0180-event-kbd";//Card Reader
-#define KEYBOARD_PATH "/dev/input/by-path/platform-i8042-serio-0-event-kbd"; //Keyboard
+//#define KEYBOARD_PATH "/dev/input/by-path/platform-i8042-serio-0-event-kbd"; //Keyboard Kasper pc
+#define KEYBOARD_PATH "/dev/input/by-id/usb-SEM_USB_Keyboard-event-kbd"; //Keyboard zybo
 
 //InputEvent types
 static const char *const pressType[3] = {
@@ -103,8 +104,20 @@ static char *shift_key_names[] = {
 #define QUEUE_CARDREADER  "/cardreader_queue" /* Queue name. */
 #define QUEUE_CARDREADER_PERMS ((int)(0644))
 #define QUEUE_CARDREADER_MAXMSG  20 /* Maximum number of messages. */
-#define QUEUE_CARDREADER_MSGSIZE 16 /* Length of message. */
+#define QUEUE_CARDREADER_MSGSIZE 17 /* Length of message. */
 #define QUEUE_CARDREADER_ATTR_INITIALIZER ((struct mq_attr){0, QUEUE_BARCODE_MAXMSG, QUEUE_BARCODE_MSGSIZE, 0, {0}})
+#define QUEUE_NAME  "/test_queue" /* Queue name. */
+#define CD_QUEUE_PERMS ((int)(0644))
+#define CD_QUEUE_MAXMSG  10 /* Maximum number of messages. */
+#define CUSTOMER_DISPLAY_QUEUE_NAME "/cd_queue" /* Customer queue display name */
+#define CD_QUEUE_MSGSIZE 128 /* Length of message. */
+#define CD_QUEUE_ATTR_INITIALIZER ((struct mq_attr){0, CD_QUEUE_MAXMSG, CD_QUEUE_MSGSIZE, 0, {0}})
+
+
+//KeyBoard QUEUE Defines
+#define QUEUE_KEYBOARD  "/keyboard_queue" /* Queue name. */
+#define QUEUE_KEYBOARD_MAXMSG  16 /* Maximum number of messages. */
+#define QUEUE_KEYBOARD_MSGSIZE 8 /* Length of message. */
 
 /* The consumer is faster than the publisher. */
 #define QUEUE_POLL_CONSUMER ((struct timespec){2, 500000000})

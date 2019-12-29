@@ -18,6 +18,7 @@ set(project_sources
         src/tasks/DisplayDriverTask.cpp src/tasks/DisplayDriverTask.hpp
         src/tasks/CardReaderTask.cpp src/tasks/CardReaderTask.hpp
         src/tasks/BarcodeScannerTask.cpp src/tasks/BarcodeScannerTask.hpp
+        src/tasks/KeyboardTask.cpp src/tasks/KeyboardTask.h
 
         src/event_handling/EventHandler.cpp src/event_handling/EventHandler.hpp
         src/event_handling/EventQueue.cpp src/event_handling/EventQueue.hpp
@@ -31,7 +32,11 @@ set(project_sources
         src/database/item.cpp src/database/item.hpp
         src/database/receipt.cpp src/database/receipt.hpp
         src/database/simple_item.cpp src/database/simple_item.hpp
-        src/tasks/ReceiptPrinterTask.cpp src/tasks/ReceiptPrinterTask.hpp)
+        src/tasks/ReceiptPrinterTask.cpp src/tasks/ReceiptPrinterTask.hpp
+        src/peripherals/CustomerDisplay.cpp
+        src/peripherals/CustomerDisplay.hpp
+        src/tasks/CustomerDisplayTask.cpp
+        src/tasks/CustomerDisplayTask.hpp)
 
 #Adds executable to the bin direcory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
