@@ -18,12 +18,12 @@ set(project_sources
         src/tasks/DisplayDriverTask.cpp src/tasks/DisplayDriverTask.hpp
         src/tasks/CardReaderTask.cpp src/tasks/CardReaderTask.hpp
         src/tasks/BarcodeScannerTask.cpp src/tasks/BarcodeScannerTask.hpp
+        src/tasks/KeyboardTask.cpp src/tasks/KeyboardTask.h
 
         src/event_handling/EventHandler.cpp src/event_handling/EventHandler.hpp
         src/event_handling/EventQueue.cpp src/event_handling/EventQueue.hpp
         src/state_handling/BombStateMachine.cpp src/state_handling/BombStateMachine.hpp
         src/Core.h
-        src/tasks/KeyboardTask.cpp src/tasks/KeyboardTask.h
 
         src/database/db_interface.cpp src/database/db_interface.hpp
         src/database/db_interface_constants.hpp
