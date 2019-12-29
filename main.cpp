@@ -16,6 +16,7 @@
 #include "src/peripherals/InputEventDriver.h"
 #include "src/database/db_interface.hpp"
 #include "src/utilities/queue.h"
+#include "src/peripherals/CustomerDisplay.hpp"
 
 
 //Thread exercise
@@ -32,6 +33,7 @@
 #include "src/tasks/CardReaderTask.hpp"
 #include "src/tasks/KeyboardTask.h"
 #include <sys/ioctl.h>
+#include "src/tasks/CustomerDisplayTask.hpp"
 
 void mqueuetest(){
     const int MAXMSG = 10;
@@ -300,6 +302,24 @@ void receiptPrinterTask(){
 
 }
 
+void CustomerDisplayTest(){
+    CustomerDisplayTask CD_task;
+    CD_task.setMessageQueue("Brain \n$10");
+
+    CustomerDisplay customerDisplay;
+
+    pthread_t CDConsumer;
+
+    pthread_create(&CDConsumer, NULL, reinterpret_cast<void *(*)(void *)>(CustomerDisplayTask::taskHandler), &customerDisplay);
+
+    pthread_join(CDConsumer, NULL);
+
+
+//    CustomerDisplay display;
+//    display.print(1,"It Works \nYo bro");
+
+}
+
 int main() {
     init_main();
     //---------------------- INSERT EXECUTION CODE HERE ----------------------//
@@ -315,5 +335,6 @@ int main() {
     //testBarcodeScannerTask();
     //testCardReaderTask();
     //testKeyboardTask();
+    //CustomerDisplayTest();
     return 0;
 }
