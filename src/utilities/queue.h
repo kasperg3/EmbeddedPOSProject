@@ -14,6 +14,7 @@
 class Queue
 {
 public:
+    Queue() {}
     Queue(const char *queue_name, int flags);
     Queue(const char* queue_name, int flags, int maxmsg, int msgsize);
 

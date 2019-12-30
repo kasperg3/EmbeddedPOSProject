@@ -39,6 +39,14 @@ void Queue::send(std::string message)
         printf("[Queue] Could not send to queue %s - %s\n", queue_name, strerror(errno));
 }
 
+void Queue::send(char *message) {
+    mq_getattr(queue_handle, &queue_attributes);
+
+    if(mq_send(queue_handle, message, queue_attributes.mq_msgsize, 0) == -1)
+        printf("[Queue] Could not send to queue %s - %s\n", queue_name, strerror(errno));
+}
+
+
 std::string Queue::receive()
 {
     mq_getattr(queue_handle, &queue_attributes);
@@ -76,9 +84,3 @@ Queue::~Queue()
     mq_close(queue_handle);
 }
 
-void Queue::send(char *message) {
-    mq_getattr(queue_handle, &queue_attributes);
-
-    if(mq_send(queue_handle, message, queue_attributes.mq_msgsize, 0) == -1)
-        printf("[Queue] Could not send to queue %s - %s\n", queue_name, strerror(errno));
-}
