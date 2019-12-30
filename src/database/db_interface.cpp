@@ -37,7 +37,7 @@ std::string DatabaseInterface::sendRequest(std::string request)
     //Server replies with ack if OK
     _socket.recv(&reply);
     string string_reply((const char*)reply.data(), reply.size());
-    cout << "Server replies: " << string_reply << endl;
+    //cout << "Server replies: " << string_reply << endl;
 
     //Send actual request:
     _socket.send(request.data(), request.size());
@@ -45,7 +45,7 @@ std::string DatabaseInterface::sendRequest(std::string request)
     //Server responds with size of the data it will send
     _socket.recv(&reply);
     string string_response((const char*)reply.data(), reply.size());
-    cout << "Server replies: " << string_response << endl;
+    //cout << "Server replies: " << string_response << endl;
 
     //We acknowledge regardless of size (aggressive programming)
     _socket.send("ack", 3);
