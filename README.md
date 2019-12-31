@@ -35,3 +35,13 @@ cpp zmq (which will also include libzmq for you).
 find_package(cppzmq)
 target_link_libraries(*Your Project Name* cppzmq)
 ```
+
+## Setup symbolic links for customer display
+1. Create the file in /etc/udev/rules.d/99-usb-serial.rules
+2. To the file write: KERNEL=="1-1.1.3", ATTRS{idVendor}=="0557", SYMLINK+="display"
+3. reload udev ruled: udevadm control --reload-rules
+
+sudo sh -c "echo 0557 2008 > /sys/bus/usb-serial/drivers/ftdi_sio/new_id"
+
+
+                 

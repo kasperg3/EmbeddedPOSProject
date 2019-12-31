@@ -142,8 +142,6 @@ void ShpStateMachine::pay_fsm()
 
         //cout << receipt.stringifyReceipt() << endl;
         break;
-
-
     }
 }
 
