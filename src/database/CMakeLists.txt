@@ -16,12 +16,7 @@ set (source_files
 )
 
 
-
 add_library(database_interface STATIC ${source_files})
+add_executable(db_interface_test main.cpp)
 
-add_executable(db_interface_test main.cpp ${source_files})
 target_link_libraries(db_interface_test cppzmq database_interface)
-
-
-#add_library(database_interface STATIC ${source_files})
-
