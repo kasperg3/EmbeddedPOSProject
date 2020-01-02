@@ -12,7 +12,6 @@ string state = "scan";
 
 int main(int argc, char** argv)
 {
-
     //Test completeTransaction():
     DatabaseInterface dbi;
     Receipt receipt = dbi.createNewReceipt();
@@ -21,13 +20,8 @@ int main(int argc, char** argv)
     receipt.addReceiptLine(snickers.getId(), snickers.getName(), snickers.getUnitPrice(), 2); //Add two snickers to receipt
     receipt.addReceiptLine(pepsi.getId(), pepsi.getName(), pepsi.getUnitPrice(), 2); //Add two pepsis
 
-    receipt.setPaymentStatus("payed"); //When should you actually do this?
+    receipt.setPaymentStatus("payed"); //Needs to be done for database server to register the receipt and deduct items etc.
     dbi.completeTransaction(receipt);
-
-
-
-
-
 
     return 0;
 }
