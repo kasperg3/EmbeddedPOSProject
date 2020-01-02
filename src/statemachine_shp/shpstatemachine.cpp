@@ -10,9 +10,10 @@ ShpStateMachine::ShpStateMachine()
     : barcode_queue(Queue(QUEUE_BARCODE, O_RDONLY | O_NONBLOCK)),
       keyboard_queue(Queue(QUEUE_KEYBOARD, O_RDONLY | O_NONBLOCK)),
       card_reader_queue(Queue(QUEUE_CARDREADER, O_RDONLY | O_NONBLOCK)),
-      customer_display_queue(Queue(CUSTOMER_DISPLAY_QUEUE_NAME, O_WRONLY | O_NONBLOCK)),
-      receipt_queue(Queue(QUEUE_RECEIPT, O_WRONLY | O_NONBLOCK))
+      receipt_queue(Queue(QUEUE_RECEIPT, O_WRONLY | O_NONBLOCK)),
+      context(zmq::context_t(1)), customer_display_socket(zmq::socket_t(context, ZMQ_REQ))
 {
+    customer_display_socket.connect("tcp://" + PC_IP + ":" + CUSTOMER_DISPLAY_PORT);
 }
 
 void ShpStateMachine::run()
@@ -20,13 +21,16 @@ void ShpStateMachine::run()
     state = STATE_SCAN;
     receipt = dbi.createNewReceipt();
 
-    while(true)
-    {
-        cout << "Current state: " << state << endl;
-        register_events_and_values();
-        fsm();
-        ms_sleep(500);
-    }
+    const char* message = "Hello from shpmfewfewfewachine";
+    customer_display_socket.send(message, strlen(message));
+
+//    while(true)
+//    {
+//        cout << "Current state: " << state << endl;
+//        register_events_and_values();
+//        fsm();
+//        ms_sleep(500);
+//    }
 }
 
 void ShpStateMachine::register_events_and_values()

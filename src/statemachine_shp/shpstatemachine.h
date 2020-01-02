@@ -22,8 +22,10 @@ private:
     Queue barcode_queue;
     Queue card_reader_queue;
     Queue keyboard_queue;
-    Queue customer_display_queue;
     Queue receipt_queue;
+    //Queue customer_display_queue;
+    zmq::context_t context;
+    zmq::socket_t customer_display_socket;
 
     std::string barcode;
     std::string card_number;
