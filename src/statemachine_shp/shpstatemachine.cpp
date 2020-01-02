@@ -21,8 +21,7 @@ void ShpStateMachine::run()
     state = STATE_SCAN;
     receipt = dbi.createNewReceipt();
 
-    const char* message = "Hello from shpmfewfewfewachine";
-    customer_display_socket.send(message, strlen(message));
+    print_on_customer_display("hmm 123 \n ewijgoewgwe");
 
 //    while(true)
 //    {
@@ -128,11 +127,6 @@ void ShpStateMachine::scan_fsm()
 
 }
 
-bool ShpStateMachine::key_is_a_number()
-{
-    return key == "0" || key == "1" || key == "2" || key == "3" || key == "4" ||
-           key == "5" || key == "6" || key == "7" || key == "8" || key == "9";
-}
 
 
 void ShpStateMachine::pay_fsm()
@@ -147,6 +141,21 @@ void ShpStateMachine::pay_fsm()
         //cout << receipt.stringifyReceipt() << endl;
         break;
     }
+}
+
+
+bool ShpStateMachine::key_is_a_number()
+{
+    return key == "0" || key == "1" || key == "2" || key == "3" || key == "4" ||
+            key == "5" || key == "6" || key == "7" || key == "8" || key == "9";
+}
+
+
+void ShpStateMachine::print_on_customer_display(string request)
+{
+    customer_display_socket.send(request.data(), request.size());
+    zmq::message_t reply;
+    customer_display_socket.recv(&reply);
 }
 
 

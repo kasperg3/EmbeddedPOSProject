@@ -46,6 +46,7 @@ private:
     void pay_fsm();
 
     bool key_is_a_number();
+    void print_on_customer_display(std::string request);
 
 
 };
