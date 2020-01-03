@@ -27,7 +27,7 @@ void ShpStateMachine::run()
 {
     state = STATE_SCAN;
     receipt = dbi.createNewReceipt();
-    //print_on_customer_display("Den tredje januar\n");
+    print_on_customer_display("Klokken 15:23\n");
 
     while(true)
     {
