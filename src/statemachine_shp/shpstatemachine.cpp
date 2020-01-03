@@ -19,6 +19,8 @@ ShpStateMachine::ShpStateMachine()
       context(zmq::context_t(1)), customer_display_socket(zmq::socket_t(context, ZMQ_REQ))
 {
     customer_display_socket.connect("tcp://" + PC_IP + ":" + CUSTOMER_DISPLAY_PORT);
+    setup_state_map();
+
 }
 
 void ShpStateMachine::run()
@@ -29,7 +31,7 @@ void ShpStateMachine::run()
 
     while(true)
     {
-        cout << "Current state: " << state << endl;
+        cout << "Current state: " << state_map[state] << endl;
         register_events_and_values();
         fsm();
         ms_sleep(500);
@@ -226,6 +228,24 @@ void ShpStateMachine::print_on_customer_display(string request)
     customer_display_socket.send(request.data(), request.size());
     zmq::message_t reply;
     customer_display_socket.recv(&reply);
+}
+
+
+//enum {STATE_SCAN_INIT, STATE_SCAN, STATE_MULTIPLY_GOODS,
+//    CHOOSE_PAYMENT, BY_CARD, BY_CASH, VALIDATE_CARD, ENTER_PIN, VALIDATE_PIN, CHOOSE_PRINT};
+
+void ShpStateMachine::setup_state_map()
+{
+    state_map[STATE_SCAN_INIT] = "STATE_SCAN_INIT";
+    state_map[STATE_SCAN] = "STATE_SCAN";
+    state_map[STATE_MULTIPLY_GOODS] = "STATE_MULTIPLY_GOODS";
+    state_map[CHOOSE_PAYMENT] = "CHOOSE_PAYMENT";
+    state_map[BY_CARD] = "BY_CARD";
+    state_map[BY_CASH] = "BY_CASH";
+    state_map[VALIDATE_CARD] = "VALIDATE_CARD";
+    state_map[ENTER_PIN] = "ENTER_PIN";
+    state_map[VALIDATE_PIN] = "VALIDATE_PIN";
+    state_map[CHOOSE_PRINT] = "CHOOSE_PRINT";
 }
 
 

@@ -7,10 +7,13 @@
 #include "../utilities/queue.h"
 #include <queue>
 #include <string>
+#include <map>
 
 enum {NO_EVENT, EVENT_BARCODE_SCANNED, EVENT_KEYBOARD_PRESSED, EVENT_CARD_READ, EVENT_NUMPAD_PRESSED};
 enum {STATE_SCAN_INIT, STATE_SCAN, STATE_MULTIPLY_GOODS,
     CHOOSE_PAYMENT, BY_CARD, BY_CASH, VALIDATE_CARD, ENTER_PIN, VALIDATE_PIN, CHOOSE_PRINT};
+
+
 
 
 class ShpStateMachine
@@ -45,6 +48,9 @@ private:
     int event;
     int state;
 
+    std::map<int, std::string> state_map;
+
+
 private:
     void register_events_and_values();
     void update_event();
@@ -55,6 +61,8 @@ private:
 
     bool keyboard_key_is_a_number();
     void print_on_customer_display(std::string request);
+
+    void setup_state_map();
 
 
 };
