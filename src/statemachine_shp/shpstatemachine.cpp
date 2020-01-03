@@ -24,7 +24,7 @@ ShpStateMachine::ShpStateMachine()
 
 void ShpStateMachine::run()
 {
-    state = STATE_SCAN;
+    state = STATE_SCAN_INIT;
     receipt = dbi.createNewReceipt();
     print_on_customer_display("Klokken 15:23\n");
 
@@ -86,8 +86,8 @@ void ShpStateMachine::scan_fsm()
     switch(state)
     {
     case STATE_SCAN_INIT:
+        print_on_customer_display("Welcome to ESD Shop <3");
         receipt = dbi.createNewReceipt();
-        print_on_customer_display("WELCOME TO ESD SHOP\n Happy New Year");
         state = STATE_SCAN;
         break;
 
@@ -98,6 +98,7 @@ void ShpStateMachine::scan_fsm()
         {
             SimpleItem item = dbi.getSimpleItemByBarcode(barcode);
             receipt.addReceiptLine(item.getId(), item.getName(),item.getUnitPrice(), 1);
+            print_on_customer_display(receipt.stringifyLineToDisplay(receipt.getReceiptLines()[receipt.getReceiptLines().size()-1]));
             break;
         }
         case EVENT_KEYBOARD_PRESSED:
@@ -113,8 +114,6 @@ void ShpStateMachine::scan_fsm()
             break;
         }
         break;
-
-
     case STATE_MULTIPLY_GOODS:
         switch(event)
         {
@@ -122,6 +121,7 @@ void ShpStateMachine::scan_fsm()
         {
             SimpleItem item = dbi.getSimpleItemByBarcode(barcode);
             receipt.addReceiptLine(item.getId(), item.getName(), item.getUnitPrice(), stoi(multiplier));
+            print_on_customer_display(receipt.stringifyLineToDisplay(receipt.getReceiptLines()[receipt.getReceiptLines().size()-1]));
             state = STATE_SCAN;
             break;
         }

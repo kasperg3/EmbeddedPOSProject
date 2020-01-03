@@ -56,6 +56,8 @@ public:
 	void removeReceiptLine(Position);
     std::string stringifyLine(ReceiptLine line);
     std::string stringifyReceipt();
+
+    std::string stringifyLineToDisplay(ReceiptLine line);
 };
 
 #endif /* RECEIPT_HPP_ */

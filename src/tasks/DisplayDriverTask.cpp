@@ -15,7 +15,6 @@ void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
     //displayDriver->init();
     //displayDriver->clear();
     /* Initialize the queue attributes */
-    mq_unlink(QUEUE_LCD);
 
     Queue receiptQueue(QUEUE_RECEIPT,O_RDONLY|O_CREAT ,QUEUE_RECEIPT_MAXMSG,QUEUE_RECEIPT_MSGSIZE);
     while(true) {

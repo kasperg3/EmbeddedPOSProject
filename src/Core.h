@@ -132,7 +132,7 @@ static bool th_consumer_running = true;
 static bool th_publisher_running = true;
 
 #include <string>
-const std::string PC_IP = "10.42.0.1";
+const std::string PC_IP = "192.168.0.1";
 const std::string CUSTOMER_DISPLAY_PORT = "1337";
 
 #endif //EMBEDDEDPROJ_CORE_H
