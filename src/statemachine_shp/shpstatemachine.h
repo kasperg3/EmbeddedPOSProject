@@ -65,6 +65,7 @@ private:
     void print_on_customer_display(std::string request);
 
     void setup_state_map();
+    void change_state_to(int new_state);
 
 
 };

@@ -90,9 +90,8 @@ void ShpStateMachine::scan_fsm()
     case STATE_SCAN_INIT:
         print_on_customer_display("Welcome to ESD Shop <3");
         receipt = dbi.createNewReceipt();
-        state = STATE_SCAN;
-        cout << "Current state: " << state_map[state] << endl;
-            break;
+        change_state_to(STATE_SCAN);
+        break;
 
     case STATE_SCAN:
         switch(event)
@@ -101,22 +100,19 @@ void ShpStateMachine::scan_fsm()
         {
             SimpleItem item = dbi.getSimpleItemByBarcode(barcode);
             receipt.addReceiptLine(item.getId(), item.getName(),item.getUnitPrice(), 1);
-            print_on_customer_display(receipt.stringifyLineToDisplay(receipt.getReceiptLines()[receipt.getReceiptLines().size()-1]));
+            string stringified_line = receipt.stringifyLineToDisplay(receipt.getReceiptLines()[receipt.getReceiptLines().size()-1]);
+            print_on_customer_display(stringified_line);
+            cout <<  stringified_line << endl;
             break;
         }
         case EVENT_KEYBOARD_PRESSED:
-            if(keyboard_key == "<ESC>"){
-                state = STATE_SCAN_INIT;
-                cout << "Current state: " << state_map[state] << endl;
-            }
-            else if(keyboard_key == "<Enter>") {
-                state = CHOOSE_PAYMENT;
-                cout << "Current state: " << state_map[state] << endl;
-            }
+            if(keyboard_key == "<ESC>")
+                change_state_to(STATE_SCAN_INIT);
+            else if(keyboard_key == "<Enter>")
+                change_state_to(CHOOSE_PAYMENT);
             else if(keyboard_key_is_a_number())
             {
-                state = STATE_MULTIPLY_GOODS;
-                cout << "Current state: " << state_map[state] << endl;
+                change_state_to(STATE_MULTIPLY_GOODS);
                 multiplier = keyboard_key;
             }
             break;
@@ -130,20 +126,15 @@ void ShpStateMachine::scan_fsm()
             SimpleItem item = dbi.getSimpleItemByBarcode(barcode);
             receipt.addReceiptLine(item.getId(), item.getName(), item.getUnitPrice(), stoi(multiplier));
             print_on_customer_display(receipt.stringifyLineToDisplay(receipt.getReceiptLines()[receipt.getReceiptLines().size()-1]));
-            state = STATE_SCAN;
-            cout << "Current state: " << state_map[state] << endl;
+            change_state_to(STATE_SCAN);
             break;
         }
         case EVENT_KEYBOARD_PRESSED:
-            if(keyboard_key == "<ESC>") {
-                state = STATE_SCAN_INIT;
-                cout << "Current state: " << state_map[state] << endl;
-            }
+            if(keyboard_key == "<ESC>")
+                change_state_to(STATE_SCAN_INIT);
 
-            else if(keyboard_key == "<Enter>") {
-                state = CHOOSE_PAYMENT;
-                cout << "Current state: " << state_map[state] << endl;
-            }
+            else if(keyboard_key == "<Enter>")
+                change_state_to(CHOOSE_PAYMENT);
             else if(keyboard_key_is_a_number()) {
                 multiplier += keyboard_key;
             }
@@ -158,35 +149,33 @@ void ShpStateMachine::scan_fsm()
 
 void ShpStateMachine::pay_fsm()
 {
-  //  cout << "Made it to STATE_PAY" << endl;
-   // cout << receipt.getReceiptLines()[0].name << endl;
-    //cout << receipt.getReceiptLines()[0].quantity << endl;
-
-    //cout << receipt.stringifyReceipt() << endl;
-
     switch(state)
     {
     case CHOOSE_PAYMENT:
         if(event == EVENT_KEYBOARD_PRESSED) {
-            if (keyboard_key == "1") { state = BY_CARD; cout << "Current state: " << state_map[state] << endl;}
-            if (keyboard_key == "2") { state = BY_CASH; cout << "Current state: " << state_map[state] << endl;}
-            if (keyboard_key == "<ESC>") { state = STATE_SCAN_INIT; cout << "Current state: " << state_map[state] << endl;}
+            if (keyboard_key == "1")
+                change_state_to(BY_CARD);
+            else if (keyboard_key == "2")
+                change_state_to(BY_CASH);
+            else if (keyboard_key == "<ESC>")
+                change_state_to(STATE_SCAN_INIT);
         }
         break;
 
     case BY_CARD:
-        if(event == EVENT_CARD_READ){state = VALIDATE_CARD; cout << "Current state: " << state_map[state] << endl;}
-        if(event == EVENT_KEYBOARD_PRESSED) {
-            if (keyboard_key == "<ESC>") { state = STATE_SCAN_INIT; cout << "Current state: " << state_map[state] << endl;}
-        }
+        if(event == EVENT_CARD_READ)
+            change_state_to(VALIDATE_CARD);
+        else if(event == EVENT_KEYBOARD_PRESSED)
+            if (keyboard_key == "<ESC>")
+                change_state_to(CHOOSE_PAYMENT);
         break;
 
     case BY_CASH:
         if(event == EVENT_KEYBOARD_PRESSED) {
-            if (keyboard_key == "<ESC>") { state = STATE_SCAN_INIT; cout << "Current state: " << state_map[state] << endl;}
+            if (keyboard_key == "<ESC>")
+                change_state_to(CHOOSE_PAYMENT);
             if (keyboard_key == "<Enter>") {
-                state = CHOOSE_PRINT;
-                cout << "Current state: " << state_map[state] << endl;
+                change_state_to(CHOOSE_PRINT);
                 receipt.setPaymentStatus("payed");
                 dbi.completeTransaction(receipt);
             }
@@ -195,11 +184,9 @@ void ShpStateMachine::pay_fsm()
         break;
 
     case VALIDATE_CARD:
-        //Luhns algo
-        //if valid
+        //Luhns algo to validate card...
         pin.clear();
-        state = ENTER_PIN;
-        cout << "Current state: " << state_map[state] << endl;
+        change_state_to(ENTER_PIN);
         //if invalid
         //state = BY_CARD;
     break;
@@ -209,10 +196,11 @@ void ShpStateMachine::pay_fsm()
             pin += numpad_key;
             cout <<"pin: " << pin << endl;
         }
-        if(pin.size() > 3){ state = VALIDATE_PIN; cout << "Current state: " << state_map[state] << endl;}
-        if(event == EVENT_KEYBOARD_PRESSED) {
-            if (keyboard_key == "<ESC>") { state = CHOOSE_PAYMENT; cout << "Current state: " << state_map[state] << endl;}
-        }
+        if(pin.size() > 3)
+            change_state_to(VALIDATE_PIN);
+        if(event == EVENT_KEYBOARD_PRESSED)
+            if (keyboard_key == "<ESC>")
+                change_state_to(CHOOSE_PAYMENT);
         break;
 
     case VALIDATE_PIN:
@@ -220,14 +208,12 @@ void ShpStateMachine::pay_fsm()
             //end transaction
             receipt.setPaymentStatus("payed");
             dbi.completeTransaction(receipt);
-            state = CHOOSE_PRINT;
-            cout << "Current state: " << state_map[state] << endl;
+            change_state_to(CHOOSE_PRINT);
         }
         else
         {
             pin.clear();
-            state = ENTER_PIN;
-            cout << "Current state: " << state_map[state] << endl;
+            change_state_to(ENTER_PIN);
         }
         break;
 
@@ -236,10 +222,10 @@ void ShpStateMachine::pay_fsm()
             if(keyboard_key == "<Enter>"){
                 //stringify receipt and put in queue
                 receipt_queue.send(receipt.stringifyReceipt());
-                state = STATE_SCAN_INIT;
-                cout << "Current state: " << state_map[state] << endl;
+                change_state_to(STATE_SCAN_INIT);
             }
-            if(keyboard_key == "<ESC>"){ state = STATE_SCAN_INIT; cout << "Current state: " << state_map[state] << endl;}
+            if(keyboard_key == "<ESC>")
+                change_state_to(STATE_SCAN_INIT);
         }
         break;
 
@@ -279,6 +265,10 @@ void ShpStateMachine::setup_state_map()
     state_map[CHOOSE_PRINT] = "CHOOSE_PRINT";
 }
 
+void ShpStateMachine::change_state_to(int new_state) {
+    state = new_state;
+    cout << "Current state is: " << state_map[state] << endl;
+}
 
 
 
