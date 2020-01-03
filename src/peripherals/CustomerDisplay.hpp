@@ -24,8 +24,8 @@ private:
     int writeToFile(std::string);
     int readFromFile(std::string&);
 
-//    std::string path = "/dev/ttyUSB0";
-    std::string path = "/dev/display";
+    std::string path = "/dev/ttyUSB0";
+//    std::string path = "/dev/display";
     std::string clear = "\x0C";
     std::string clear_line = "\x18";
     std::string move_l1 = "\x1F\x24\01\x01";

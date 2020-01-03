@@ -49,9 +49,9 @@
 #define QUEUE_RECEIPT_ATTR_INITIALIZER ((struct mq_attr){0, QUEUE_RECEIPT_MAXMSG, QUEUE_RECEIPT_MSGSIZE, 0, {0}})
 
 
-#include <string>
-const std::string PC_IP = "10.42.0.1"; //192.168.0.1
-const std::string CUSTOMER_DISPLAY_PORT = "1337";
+//#include <string>
+//const std::string PC_IP = "10.42.0.1"; //192.168.0.1
+//const std::string CUSTOMER_DISPLAY_PORT = "1337";
 
 /*
 enum {NO_EVENT, EVENT_BARCODE_SCANNED, EVENT_KEYBOARD_PRESSED, EVENT_CARD_READ, EVENT_NUMPAD_PRESSED};

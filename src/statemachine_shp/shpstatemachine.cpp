@@ -26,7 +26,7 @@ void ShpStateMachine::run()
 {
     state = STATE_SCAN;
     receipt = dbi.createNewReceipt();
-    //print_on_customer_display("Den tredje januar\n");
+    print_on_customer_display("Klokken 15:23\n");
 
     while(true)
     {
@@ -87,6 +87,7 @@ void ShpStateMachine::scan_fsm()
     {
     case STATE_SCAN_INIT:
         receipt = dbi.createNewReceipt();
+        print_on_customer_display("WELCOME TO ESD SHOP\n Happy New Year");
         state = STATE_SCAN;
         break;
 
