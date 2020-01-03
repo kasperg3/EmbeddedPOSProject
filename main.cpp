@@ -28,7 +28,6 @@
 #include "src/Core.h"
 #include "src/tasks/NumpadDriverTask.hpp"
 #include "src/tasks/DisplayDriverTask.hpp"
-#include "src/state_handling/BombStateMachine.hpp"
 #include "src/tasks/BarcodeScannerTask.hpp"
 #include "src/tasks/CardReaderTask.hpp"
 #include "src/tasks/ReceiptPrinterTask.hpp"
@@ -158,26 +157,6 @@ int testPosix(){
     pthread_join(displayConsumer, NULL);
 
 }
-
-
-int theBomb (void)
-{
-    if ( getuid() )
-    {
-        // This is a hack. The correct way to do it would be to 'sudo make install' and set up proper permissions to the gpio
-        std::cout << "This will only work if you are root!"<< std::endl;
-        return -1;
-    }
-
-    BombStateMachine bomb;
-
-    bomb.init();
-    bomb.start();
-
-
-    return 0;
-}
-
 
 
 void keyboardDriverTest(){
@@ -325,7 +304,7 @@ int main() {
     //testPosix();
     //keyboardDriverTest();
     //testBarcodeScannerTask();
-    //testCardReaderTask();
+    testCardReaderTask();
     //testKeyboardTask();
     //CustomerDisplayTest();
 
