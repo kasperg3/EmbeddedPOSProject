@@ -34,6 +34,7 @@
 #include "src/tasks/KeyboardTask.h"
 #include <sys/ioctl.h>
 #include "src/tasks/CustomerDisplayTask.hpp"
+#include "src/statemachine_shp/shpstatemachine.h"
 
 void mqueuetest(){
     const int MAXMSG = 10;
@@ -287,6 +288,18 @@ void CustomerDisplayTest(){
 
 }
 
+
+void create_mqueues()
+{
+    Queue barcode_queue(QUEUE_BARCODE, O_RDONLY | O_NONBLOCK, QUEUE_BARCODE_MAXMSG, QUEUE_BARCODE_MSGSIZE);
+    Queue keyboard_queue(QUEUE_KEYBOARD, O_RDONLY | O_NONBLOCK, QUEUE_KEYBOARD_MAXMSG, QUEUE_KEYBOARD_MSGSIZE);
+    Queue card_reader_queue(QUEUE_CARDREADER, O_RDONLY | O_NONBLOCK, QUEUE_CARDREADER_MAXMSG, QUEUE_CARDREADER_MSGSIZE);
+    Queue numpad_queue(QUEUE_NUMPAD, O_RDONLY | O_NONBLOCK, QUEUE_NUMPAD_MAXMSG, QUEUE_NUMPAD_MSGSIZE);
+
+    Queue receipt_queue(QUEUE_RECEIPT, O_WRONLY, QUEUE_RECEIPT_MAXMSG, QUEUE_RECEIPT_MSGSIZE);
+    Queue lcd_queue(QUEUE_LCD, O_WRONLY, QUEUE_LCD_MAXMSG, QUEUE_LCD_MSGSIZE);
+}
+
 int main() {
     init_main();
 
@@ -304,9 +317,41 @@ int main() {
     //testPosix();
     //keyboardDriverTest();
     //testBarcodeScannerTask();
-    testCardReaderTask();
+    //testCardReaderTask();
     //testKeyboardTask();
     //CustomerDisplayTest();
+
+    uid_t user_id = getuid();
+    if(user_id > 0) {
+        printf("Run as root.\n");
+        exit(EXIT_FAILURE);
+    }
+    create_mqueues();
+
+    CardReaderTask cardReaderTask();
+    pthread_t cardReaderPublisher;
+    const char *deviceName = CARDREADER_PATH; //Card Reader
+    InputEventDriver cardReaderEventDriver(deviceName);
+    pthread_create(&cardReaderPublisher, NULL, reinterpret_cast<void *(*)(void *)>(CardReaderTask::taskHandler), &cardReaderEventDriver);
+
+    KeyboardTask keyboardTask();
+    pthread_t keyboardPublisher;
+    const char *deviceNameCR = KEYBOARD_PATH; //Card Reader
+    InputEventDriver keyboardEventDriver(deviceNameCR);
+    pthread_create(&keyboardPublisher, NULL, reinterpret_cast<void *(*)(void *)>(KeyboardTask::taskHandler), &keyboardEventDriver);
+
+    BarcodeScannerTask barcodeScannerTask();
+    pthread_t barcodePublisher;
+    const char *deviceNameSC = BARCODE_SCANNER_PATH; //Scanner
+    InputEventDriver barcodeEventDriver(deviceNameSC);
+    pthread_create(&barcodePublisher, NULL, reinterpret_cast<void *(*)(void *)>(BarcodeScannerTask::taskHandler), &barcodeEventDriver);
+
+    ReceiptPrinterTask receiptPrinterTask();
+    pthread_t receiptConsumer;
+    pthread_create(&receiptConsumer, NULL, reinterpret_cast<void *(*)(void *)>(ReceiptPrinterTask::taskHandler), NULL);
+
+    ShpStateMachine sm;
+    sm.run();
 
     return 0;
 }

@@ -1,9 +1,10 @@
 #ifndef SHPSTATEMACHINE_H
 #define SHPSTATEMACHINE_H
 
-#include "queue.h"
-#include "db_interface.hpp"
-#include "statemachine_constants.h"
+#include "../Core.h"
+#include "../database/receipt.hpp"
+#include "../database/db_interface.hpp"
+#include "../utilities/queue.h"
 #include <queue>
 #include <string>
 

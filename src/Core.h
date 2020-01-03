@@ -8,10 +8,10 @@
 //Device Paths
 
 
-#define BARCODE_SCANNER_PATH "/dev/input/by-id/usb-USB_Adapter_USB_Device-event-kbd"; //Scanner
+#define BARCODE_SCANNER_PATH "/dev/input/by-id/usb-USB_Adapter_USB_Device-event-if00"; //Scanner
 #define CARDREADER_PATH "/dev/input/by-id/usb-c216_0180-event-if00";//Card Reader
 //#define KEYBOARD_PATH "/dev/input/by-path/platform-i8042-serio-0-event-kbd"; //Keyboard Kasper pc
-#define KEYBOARD_PATH "/dev/input/by-id/usb-SEM_USB_Keyboard-event-kbd"; //Keyboard zybo
+#define KEYBOARD_PATH "/dev/input/by-id/usb-SEM_USB_Keyboard-event-if00"; //Keyboard zybo
 
 //InputEvent types
 static const char *const pressType[3] = {
@@ -119,9 +119,10 @@ static char *shift_key_names[] = {
 #define QUEUE_KEYBOARD_MAXMSG  16 /* Maximum number of messages. */
 #define QUEUE_KEYBOARD_MSGSIZE 8 /* Length of message. */
 
-/* The consumer is faster than the publisher. */
-#define QUEUE_POLL_CONSUMER ((struct timespec){2, 500000000})
-#define QUEUE_POLL_PUBLISHER ((struct timespec){5, 0})
+//LCDDriver QUEUE Defines
+#define QUEUE_LCD "/lcd_queue"
+#define QUEUE_LCD_MAXMSG 10
+#define QUEUE_LCD_MSGSIZE 50
 
 #define QUEUE_RECEIPT  "/receipt_queue" /* Queue name. */
 #define QUEUE_RECEIPT_PERMS ((int)(0644))
@@ -132,5 +133,11 @@ static char *shift_key_names[] = {
 static bool th_consumer_running = true;
 static bool th_publisher_running = true;
 
+#include <string>
+const std::string PC_IP = "10.42.0.1";
+const std::string CUSTOMER_DISPLAY_PORT = "1337";
+
+enum {NO_EVENT, EVENT_BARCODE_SCANNED, EVENT_KEYBOARD_PRESSED, EVENT_CARD_READ, EVENT_NUMPAD_PRESSED};
+enum {STATE_SCAN, STATE_MULTIPLY_GOODS, STATE_PAY};
 
 #endif //EMBEDDEDPROJ_CORE_H

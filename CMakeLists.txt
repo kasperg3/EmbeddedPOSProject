@@ -18,9 +18,13 @@ set(project_sources
         src/tasks/BarcodeScannerTask.cpp src/tasks/BarcodeScannerTask.hpp
         src/tasks/KeyboardTask.cpp src/tasks/KeyboardTask.h
 
+        src/statemachine_shp/CMakeLists.txt
+
         src/Core.h
         src/tasks/KeyboardTask.cpp src/tasks/KeyboardTask.h
         src/utilities/queue.cpp src/utilities/queue.h
+
+        src/statemachine_shp/shpstatemachine.h src/statemachine_shp/shpstatemachine.cpp
 
         src/database/db_interface.cpp src/database/db_interface.hpp
         src/database/db_interface_constants.hpp
@@ -45,8 +49,3 @@ find_package(cppzmq)
 add_executable(embeddedProj ${project_sources} main.cpp )
 #rt and thread library linkage
 target_link_libraries (embeddedProj ${CMAKE_THREAD_LIBS_INIT} cppzmq rt)
-
-add_executable(state_machine_prog ${project_sources} state_machine_main.cpp)
-#rt and thread library linkage
-target_link_libraries (state_machine_prog ${CMAKE_THREAD_LIBS_INIT} cppzmq rt)
-

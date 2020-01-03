@@ -43,5 +43,25 @@ target_link_libraries(*Your Project Name* cppzmq)
 
 sudo sh -c "echo 0557 2008 > /sys/bus/usb-serial/drivers/ftdi_sio/new_id"
 
+## Setup a thread to run the server on zybo at boot: 
+To run the server, see the readme from blackboard about the database demo!
+Create a file called startdb.service in /lib/systemd/system/startdb.service containing:
+```
+[Unit]
+Description=zybo database service
 
+[Service]
+ExecStart=/root/zybo-files/db_server_zybo
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+
+Start and enable the service: 
+```
+sudo systemctl start startdb
+sudo systemctl enable startdb
+```
                  
