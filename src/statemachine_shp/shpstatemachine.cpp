@@ -58,6 +58,8 @@ void ShpStateMachine::register_events_and_values()
     {
         numpad_key = numpad_queue.receive();
         event_queue.push(EVENT_NUMPAD_PRESSED);
+        cout << "Received a numpad_queue event" << endl;
+        cout << "numpad_key: " << numpad_key << endl;
     }
 
     update_event();
@@ -144,6 +146,12 @@ void ShpStateMachine::scan_fsm()
 
 void ShpStateMachine::pay_fsm()
 {
+  //  cout << "Made it to STATE_PAY" << endl;
+   // cout << receipt.getReceiptLines()[0].name << endl;
+    //cout << receipt.getReceiptLines()[0].quantity << endl;
+
+    //cout << receipt.stringifyReceipt() << endl;
+
     switch(state)
     {
     case CHOOSE_PAYMENT:
@@ -164,7 +172,11 @@ void ShpStateMachine::pay_fsm()
     case BY_CASH:
         if(event == EVENT_KEYBOARD_PRESSED) {
             if (keyboard_key == "<ESC>") { state = STATE_SCAN_INIT; }
-            if (keyboard_key == "<Enter>") { state = CHOOSE_PRINT; }
+            if (keyboard_key == "<Enter>") {
+                state = CHOOSE_PRINT;
+                receipt.setPaymentStatus("payed");
+                dbi.completeTransaction(receipt);
+            }
         }
 
         break;
@@ -192,6 +204,8 @@ void ShpStateMachine::pay_fsm()
     case VALIDATE_PIN:
         if(pin == "1234"){
             //end transaction
+            receipt.setPaymentStatus("payed");
+            dbi.completeTransaction(receipt);
             state = CHOOSE_PRINT;
         }
         else
@@ -205,6 +219,7 @@ void ShpStateMachine::pay_fsm()
         if(event == EVENT_KEYBOARD_PRESSED){
             if(keyboard_key == "<Enter>"){
                 //stringify receipt and put in queue
+                receipt_queue.send(receipt.stringifyReceipt());
                 state = STATE_SCAN_INIT;
             }
             if(keyboard_key == "<ESC>"){ state = STATE_SCAN_INIT;}

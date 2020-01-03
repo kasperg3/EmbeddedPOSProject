@@ -47,6 +47,8 @@ private:
     std::queue<int> event_queue;
     int event;
     int state;
+    int pay_event;
+
 
     std::map<int, std::string> state_map;
 

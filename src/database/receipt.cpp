@@ -114,6 +114,6 @@ std::string Receipt::stringifyReceipt() {
     output.append(total_string);
     output.append("\nServiced by: NLO\n");
 
-    std::cout << "test output\n\n" <<  output << std::endl << std::endl;
+    //std::cout << "test output\n\n" <<  output << std::endl << std::endl;
     return output;
 }
