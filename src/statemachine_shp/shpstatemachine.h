@@ -8,6 +8,10 @@
 #include <queue>
 #include <string>
 
+enum {NO_EVENT, EVENT_BARCODE_SCANNED, EVENT_KEYBOARD_PRESSED, EVENT_CARD_READ, EVENT_NUMPAD_PRESSED};
+enum {STATE_SCAN_INIT, STATE_SCAN, STATE_MULTIPLY_GOODS,
+    CHOOSE_PAYMENT, BY_CARD, BY_CASH, VALIDATE_CARD, ENTER_PIN, VALIDATE_PIN, CHOOSE_PRINT};
+
 
 class ShpStateMachine
 {
@@ -33,8 +37,8 @@ private:
     std::string barcode;
     std::string card_number;
     std::string keyboard_key;
-    std::string numpad_key;
-
+    std::string numpad_key = "";
+    std::string pin = "";
     std::string multiplier;
 
     std::queue<int> event_queue;

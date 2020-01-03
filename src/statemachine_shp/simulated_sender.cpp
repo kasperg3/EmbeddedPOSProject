@@ -25,14 +25,37 @@ int main()
 //    keyboard_queue.send("ESC");
 //    sleep(3);
     keyboard_queue.send("1");
+    cout << "1" << endl;
     sleep(3);
     keyboard_queue.send("5");
+    cout << "5" << endl;
     sleep(3);
     barcode_queue.send("5701115667007");
+    cout << "5701115667007" << endl;
     sleep(3);
-    keyboard_queue.send("<ENTER>");
-
-
+    keyboard_queue.send("<Enter>"); // go to pay
+    cout << "<Enter>" << endl;
+    sleep(3);
+    keyboard_queue.send("1");
+    cout << "1" << endl;
+    sleep(3);
+    card_reader_queue.send("123545");
+    cout << "12345" << endl;
+    sleep(3);
+    numpad_queue.send("1");
+    cout << "1" << endl;
+    sleep(1);
+    numpad_queue.send("2");
+    cout << "2" << endl;
+    sleep(1);
+    numpad_queue.send("3");
+    cout << "3" << endl;
+    sleep(1);
+    numpad_queue.send("4");
+    cout << "4" << endl;
+    sleep(3);
+    keyboard_queue.send("<Enter>");
+    cout << "<Enter>" << endl;
 
     return 0;
 }

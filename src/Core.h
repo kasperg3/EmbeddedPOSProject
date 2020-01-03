@@ -88,21 +88,21 @@ static char *shift_key_names[] = {
 //NumpadDriver QUEUE Defines
 #define QUEUE_NUMPAD  "/numpad_queue" /* Queue name. */
 #define QUEUE_NUMPAD_PERMS ((int)(0644))
-#define QUEUE_NUMPAD_MAXMSG  16 /* Maximum number of messages. */
-#define QUEUE_NUMPAD_MSGSIZE 1 /* Length of message. */
+#define QUEUE_NUMPAD_MAXMSG  10 /* Maximum number of messages. */
+#define QUEUE_NUMPAD_MSGSIZE 2 /* Length of message. */
 #define QUEUE_NUMPAD_ATTR_INITIALIZER ((struct mq_attr){0, QUEUE_NUMPAD_MAXMSG, QUEUE_NUMPAD_MSGSIZE, 0, {0}})
 
 //BarcodeScanner QUEUE Defines
 #define QUEUE_BARCODE  "/barcode_queue" /* Queue name. */
 #define QUEUE_BARCODE_PERMS ((int)(0644))
-#define QUEUE_BARCODE_MAXMSG  16 /* Maximum number of messages. */
+#define QUEUE_BARCODE_MAXMSG  10 /* Maximum number of messages. */
 #define QUEUE_BARCODE_MSGSIZE 14 /* Length of message. */
 #define QUEUE_BARCODE_ATTR_INITIALIZER ((struct mq_attr){0, QUEUE_BARCODE_MAXMSG, QUEUE_BARCODE_MSGSIZE, 0, {0}})
 
 //CardReader QUEUE Defines
 #define QUEUE_CARDREADER  "/cardreader_queue" /* Queue name. */
 #define QUEUE_CARDREADER_PERMS ((int)(0644))
-#define QUEUE_CARDREADER_MAXMSG  20 /* Maximum number of messages. */
+#define QUEUE_CARDREADER_MAXMSG  10 /* Maximum number of messages. */
 #define QUEUE_CARDREADER_MSGSIZE 17 /* Length of message. */
 #define QUEUE_CARDREADER_ATTR_INITIALIZER ((struct mq_attr){0, QUEUE_BARCODE_MAXMSG, QUEUE_BARCODE_MSGSIZE, 0, {0}})
 #define QUEUE_NAME  "/test_queue" /* Queue name. */
@@ -114,7 +114,7 @@ static char *shift_key_names[] = {
 
 //KeyBoard QUEUE Defines
 #define QUEUE_KEYBOARD  "/keyboard_queue" /* Queue name. */
-#define QUEUE_KEYBOARD_MAXMSG  16 /* Maximum number of messages. */
+#define QUEUE_KEYBOARD_MAXMSG  10 /* Maximum number of messages. */
 #define QUEUE_KEYBOARD_MSGSIZE 8 /* Length of message. */
 
 //LCDDriver QUEUE Defines
@@ -134,8 +134,5 @@ static bool th_publisher_running = true;
 #include <string>
 const std::string PC_IP = "10.42.0.1";
 const std::string CUSTOMER_DISPLAY_PORT = "1337";
-
-enum {NO_EVENT, EVENT_BARCODE_SCANNED, EVENT_KEYBOARD_PRESSED, EVENT_CARD_READ, EVENT_NUMPAD_PRESSED};
-enum {STATE_SCAN, STATE_MULTIPLY_GOODS, STATE_PAY};
 
 #endif //EMBEDDEDPROJ_CORE_H

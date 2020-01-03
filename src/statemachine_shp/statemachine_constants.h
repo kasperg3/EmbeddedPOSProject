@@ -3,7 +3,7 @@
 #define QUEUE_NUMPAD  "/numpad_queue" /* Queue name. */
 #define QUEUE_NUMPAD_PERMS ((int)(0644))
 #define QUEUE_NUMPAD_MAXMSG  10 /* Maximum number of messages. */
-#define QUEUE_NUMPAD_MSGSIZE 1 /* Length of message. */
+#define QUEUE_NUMPAD_MSGSIZE 2 /* Length of message. */
 #define QUEUE_NUMPAD_ATTR_INITIALIZER ((struct mq_attr){0, QUEUE_NUMPAD_MAXMSG, QUEUE_NUMPAD_MSGSIZE, 0, {0}})
 
 //LCDDriver QUEUE Defines
@@ -50,8 +50,11 @@
 
 
 #include <string>
-const std::string PC_IP = "10.42.0.1";
+const std::string PC_IP = "10.42.0.1"; //192.168.0.1
 const std::string CUSTOMER_DISPLAY_PORT = "1337";
 
+/*
 enum {NO_EVENT, EVENT_BARCODE_SCANNED, EVENT_KEYBOARD_PRESSED, EVENT_CARD_READ, EVENT_NUMPAD_PRESSED};
-enum {STATE_SCAN, STATE_MULTIPLY_GOODS, STATE_PAY};
+enum {STATE_SCAN_INIT, STATE_SCAN, STATE_MULTIPLY_GOODS,
+        CHOOSE_PAYMENT, BY_CARD, BY_CASH, VALIDATE_CARD, ENTER_PIN, VALIDATE_PIN, CHOOSE_PRINT};
+*/

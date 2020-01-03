@@ -1,4 +1,5 @@
 #include "shpstatemachine.h"
+//#include "statemachine_constants.h"
 
 #include <iostream>
 #include <unistd.h>
@@ -83,6 +84,11 @@ void ShpStateMachine::scan_fsm()
 {
     switch(state)
     {
+    case STATE_SCAN_INIT:
+        receipt = dbi.createNewReceipt();
+        state = STATE_SCAN;
+        break;
+
     case STATE_SCAN:
         switch(event)
         {
@@ -95,9 +101,9 @@ void ShpStateMachine::scan_fsm()
 
         case EVENT_KEYBOARD_PRESSED:
             if(keyboard_key == "ESC")
-                receipt = dbi.createNewReceipt();
-            else if(keyboard_key == "<ENTER>")
-                state = STATE_PAY;
+                state = STATE_SCAN_INIT;
+            else if(keyboard_key == "<Enter>")
+                state = CHOOSE_PAYMENT;
             else if(keyboard_key_is_a_number())
             {
                 state = STATE_MULTIPLY_GOODS;
@@ -120,12 +126,10 @@ void ShpStateMachine::scan_fsm()
         }
         case EVENT_KEYBOARD_PRESSED:
             if(keyboard_key == "ESC")
-            {
-                receipt = dbi.createNewReceipt();
-                state = STATE_SCAN;
-            }
-            else if(keyboard_key == "<ENTER>")
-                state = STATE_PAY;
+                state = STATE_SCAN_INIT;
+
+            else if(keyboard_key == "<Enter>")
+                state = CHOOSE_PAYMENT;
             else if(keyboard_key_is_a_number())
                 multiplier += keyboard_key;
             break;
@@ -141,13 +145,71 @@ void ShpStateMachine::pay_fsm()
 {
     switch(state)
     {
-    case STATE_PAY:
-        cout << "Made it to STATE_PAY" << endl;
-        cout << receipt.getReceiptLines()[0].name << endl;
-        cout << receipt.getReceiptLines()[0].quantity << endl;
-
-        //cout << receipt.stringifyReceipt() << endl;
+    case CHOOSE_PAYMENT:
+        if(event == EVENT_KEYBOARD_PRESSED) {
+            if (keyboard_key == "1") { state = BY_CARD; }
+            if (keyboard_key == "2") { state = BY_CASH; }
+            if (keyboard_key == "ESC") { state = STATE_SCAN_INIT; }
+        }
         break;
+
+    case BY_CARD:
+        if(event == EVENT_CARD_READ){state = VALIDATE_CARD;}
+        if(event == EVENT_KEYBOARD_PRESSED) {
+            if (keyboard_key == "ESC") { state = STATE_SCAN_INIT; }
+        }
+        break;
+
+    case BY_CASH:
+        if(event == EVENT_KEYBOARD_PRESSED) {
+            if (keyboard_key == "ESC") { state = STATE_SCAN_INIT; }
+            if (keyboard_key == "<Enter>") { state = CHOOSE_PRINT; }
+        }
+
+        break;
+
+    case VALIDATE_CARD:
+        //Luhns algo
+        //if valid
+        pin.clear();
+        state = ENTER_PIN;
+        //if invalid
+        //state = BY_CARD;
+    break;
+
+    case ENTER_PIN:
+        if(event == EVENT_NUMPAD_PRESSED){
+            pin += numpad_key;
+            cout <<"pin: " << pin << endl;
+        }
+        if(pin.size() > 3){ state = VALIDATE_PIN;}
+        if(event == EVENT_KEYBOARD_PRESSED) {
+            if (keyboard_key == "ESC") { state = CHOOSE_PAYMENT; }
+        }
+        break;
+
+    case VALIDATE_PIN:
+        if(pin == "1234"){
+            //end transaction
+            state = CHOOSE_PRINT;
+        }
+        else
+        {
+            pin.clear();
+            state = ENTER_PIN;
+        }
+        break;
+
+    case CHOOSE_PRINT:
+        if(event == EVENT_KEYBOARD_PRESSED){
+            if(keyboard_key == "<Enter>"){
+                //stringify receipt and put in queue
+                state = STATE_SCAN_INIT;
+            }
+            if(keyboard_key == "ESC"){ state = STATE_SCAN_INIT;}
+        }
+        break;
+
     }
 }
 
