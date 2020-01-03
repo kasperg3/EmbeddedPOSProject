@@ -88,6 +88,7 @@ void ShpStateMachine::scan_fsm()
     {
     case STATE_SCAN_INIT:
         receipt = dbi.createNewReceipt();
+        print_on_customer_display("WELCOME TO ESD SHOP\n Happy New Year");
         state = STATE_SCAN;
         break;
 
