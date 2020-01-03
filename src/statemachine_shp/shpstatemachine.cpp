@@ -1,5 +1,4 @@
 #include "shpstatemachine.h"
-//#include "statemachine_constants.h"
 
 #include <iostream>
 #include <unistd.h>
@@ -100,9 +99,8 @@ void ShpStateMachine::scan_fsm()
             receipt.addReceiptLine(item.getId(), item.getName(),item.getUnitPrice(), 1);
             break;
         }
-
         case EVENT_KEYBOARD_PRESSED:
-            if(keyboard_key == "ESC")
+            if(keyboard_key == "<ESC>")
                 state = STATE_SCAN_INIT;
             else if(keyboard_key == "<Enter>")
                 state = CHOOSE_PAYMENT;
@@ -127,7 +125,7 @@ void ShpStateMachine::scan_fsm()
             break;
         }
         case EVENT_KEYBOARD_PRESSED:
-            if(keyboard_key == "ESC")
+            if(keyboard_key == "<ESC>")
                 state = STATE_SCAN_INIT;
 
             else if(keyboard_key == "<Enter>")
@@ -151,20 +149,20 @@ void ShpStateMachine::pay_fsm()
         if(event == EVENT_KEYBOARD_PRESSED) {
             if (keyboard_key == "1") { state = BY_CARD; }
             if (keyboard_key == "2") { state = BY_CASH; }
-            if (keyboard_key == "ESC") { state = STATE_SCAN_INIT; }
+            if (keyboard_key == "<ESC>") { state = STATE_SCAN_INIT; }
         }
         break;
 
     case BY_CARD:
         if(event == EVENT_CARD_READ){state = VALIDATE_CARD;}
         if(event == EVENT_KEYBOARD_PRESSED) {
-            if (keyboard_key == "ESC") { state = STATE_SCAN_INIT; }
+            if (keyboard_key == "<ESC>") { state = STATE_SCAN_INIT; }
         }
         break;
 
     case BY_CASH:
         if(event == EVENT_KEYBOARD_PRESSED) {
-            if (keyboard_key == "ESC") { state = STATE_SCAN_INIT; }
+            if (keyboard_key == "<ESC>") { state = STATE_SCAN_INIT; }
             if (keyboard_key == "<Enter>") { state = CHOOSE_PRINT; }
         }
 
@@ -186,7 +184,7 @@ void ShpStateMachine::pay_fsm()
         }
         if(pin.size() > 3){ state = VALIDATE_PIN;}
         if(event == EVENT_KEYBOARD_PRESSED) {
-            if (keyboard_key == "ESC") { state = CHOOSE_PAYMENT; }
+            if (keyboard_key == "<ESC>") { state = CHOOSE_PAYMENT; }
         }
         break;
 
@@ -208,7 +206,7 @@ void ShpStateMachine::pay_fsm()
                 //stringify receipt and put in queue
                 state = STATE_SCAN_INIT;
             }
-            if(keyboard_key == "ESC"){ state = STATE_SCAN_INIT;}
+            if(keyboard_key == "<ESC>"){ state = STATE_SCAN_INIT;}
         }
         break;
 

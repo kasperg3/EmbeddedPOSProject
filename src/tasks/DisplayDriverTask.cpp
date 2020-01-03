@@ -16,7 +16,8 @@ void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
     //displayDriver->clear();
     /* Initialize the queue attributes */
     mq_unlink(QUEUE_LCD);
-    Queue receiptQueue(QUEUE_RECEIPT,O_RDONLY|O_CREAT,QUEUE_RECEIPT_MAXMSG,QUEUE_RECEIPT_MSGSIZE);
+
+    Queue receiptQueue(QUEUE_RECEIPT,O_RDONLY|O_CREAT ,QUEUE_RECEIPT_MAXMSG,QUEUE_RECEIPT_MSGSIZE);
     while(true) {
         std::string buffer = receiptQueue.receive();
         if(buffer[0] == '1'){
@@ -28,6 +29,8 @@ void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
             buffer.erase(0,1);
             buffer.erase(buffer.size()-1);
             displayDriver->print(0,buffer);
+        }else if(buffer[0] == '2'){
+            displayDriver->clear();
         }
 
         printf("[DisplayDriver]: Received message: %s \n", buffer.c_str());

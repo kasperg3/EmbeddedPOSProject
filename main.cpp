@@ -379,6 +379,12 @@ int main() {
     pthread_t displayTask;
     pthread_create(&displayTask, NULL, reinterpret_cast<void *(*)(void *)>(DisplayDriverTask::taskHandler), &displayDriver);
 
+    NumpadDriverTask numpadDriverTask;
+    NumpadDriver numpadDriver;
+    numpadDriver.init();
+    pthread_t numpadPublisher;
+    pthread_create(&numpadPublisher, NULL, reinterpret_cast<void *(*)(void *)>(NumpadDriverTask::taskHandler), &numpadDriver);
+
     ShpStateMachine sm;
     sm.run();
 
