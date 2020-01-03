@@ -10,7 +10,11 @@ ShpStateMachine::ShpStateMachine()
     : barcode_queue(Queue(QUEUE_BARCODE, O_RDONLY | O_NONBLOCK)),
       keyboard_queue(Queue(QUEUE_KEYBOARD, O_RDONLY | O_NONBLOCK)),
       card_reader_queue(Queue(QUEUE_CARDREADER, O_RDONLY | O_NONBLOCK)),
+      numpad_queue(Queue(QUEUE_NUMPAD, O_RDONLY | O_NONBLOCK)),
+
       receipt_queue(Queue(QUEUE_RECEIPT, O_WRONLY | O_NONBLOCK)),
+      lcd_queue(Queue(QUEUE_LCD, O_WRONLY | O_NONBLOCK)),
+
       context(zmq::context_t(1)), customer_display_socket(zmq::socket_t(context, ZMQ_REQ))
 {
     customer_display_socket.connect("tcp://" + PC_IP + ":" + CUSTOMER_DISPLAY_PORT);
@@ -20,16 +24,15 @@ void ShpStateMachine::run()
 {
     state = STATE_SCAN;
     receipt = dbi.createNewReceipt();
+    print_on_customer_display("Den tredje januar\n");
 
-    print_on_customer_display("hmm 123 \n ewijgoewgwe");
-
-//    while(true)
-//    {
-//        cout << "Current state: " << state << endl;
-//        register_events_and_values();
-//        fsm();
-//        ms_sleep(500);
-//    }
+    while(true)
+    {
+        cout << "Current state: " << state << endl;
+        register_events_and_values();
+        fsm();
+        ms_sleep(500);
+    }
 }
 
 void ShpStateMachine::register_events_and_values()
@@ -41,13 +44,18 @@ void ShpStateMachine::register_events_and_values()
     }
     if(!keyboard_queue.empty())
     {
-        key = keyboard_queue.receive();
+        keyboard_key = keyboard_queue.receive();
         event_queue.push(EVENT_KEYBOARD_PRESSED);
     }
     if(!card_reader_queue.empty())
     {
         card_number = card_reader_queue.receive();
         event_queue.push(EVENT_CARD_READ);
+    }
+    if(!numpad_queue.empty())
+    {
+        numpad_key = numpad_queue.receive();
+        event_queue.push(EVENT_NUMPAD_PRESSED);
     }
 
     update_event();
@@ -86,14 +94,14 @@ void ShpStateMachine::scan_fsm()
         }
 
         case EVENT_KEYBOARD_PRESSED:
-            if(key == "ESC")
+            if(keyboard_key == "ESC")
                 receipt = dbi.createNewReceipt();
-            else if(key == "<ENTER>")
+            else if(keyboard_key == "<ENTER>")
                 state = STATE_PAY;
-            else if(key_is_a_number())
+            else if(keyboard_key_is_a_number())
             {
                 state = STATE_MULTIPLY_GOODS;
-                multiplier = key;
+                multiplier = keyboard_key;
             }
             break;
         }
@@ -111,15 +119,15 @@ void ShpStateMachine::scan_fsm()
             break;
         }
         case EVENT_KEYBOARD_PRESSED:
-            if(key == "ESC")
+            if(keyboard_key == "ESC")
             {
                 receipt = dbi.createNewReceipt();
                 state = STATE_SCAN;
             }
-            else if(key == "<ENTER>")
+            else if(keyboard_key == "<ENTER>")
                 state = STATE_PAY;
-            else if(key_is_a_number())
-                multiplier += key;
+            else if(keyboard_key_is_a_number())
+                multiplier += keyboard_key;
             break;
         }
         break;
@@ -144,10 +152,10 @@ void ShpStateMachine::pay_fsm()
 }
 
 
-bool ShpStateMachine::key_is_a_number()
+bool ShpStateMachine::keyboard_key_is_a_number()
 {
-    return key == "0" || key == "1" || key == "2" || key == "3" || key == "4" ||
-            key == "5" || key == "6" || key == "7" || key == "8" || key == "9";
+    return keyboard_key == "0" || keyboard_key == "1" || keyboard_key == "2" || keyboard_key == "3" || keyboard_key == "4" ||
+            keyboard_key == "5" || keyboard_key == "6" || keyboard_key == "7" || keyboard_key == "8" || keyboard_key == "9";
 }
 
 

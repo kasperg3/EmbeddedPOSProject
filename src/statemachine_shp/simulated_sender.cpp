@@ -10,7 +10,9 @@ int main()
     Queue barcode_queue(QUEUE_BARCODE, O_WRONLY | O_NONBLOCK);
     Queue keyboard_queue(QUEUE_KEYBOARD, O_WRONLY | O_NONBLOCK);
     Queue card_reader_queue(QUEUE_CARDREADER, O_WRONLY| O_NONBLOCK);
-    Queue customer_display_queue(CUSTOMER_DISPLAY_QUEUE_NAME, O_RDONLY);
+    Queue numpad_queue(QUEUE_NUMPAD, O_WRONLY | O_NONBLOCK);
+
+    Queue lcd_queue(QUEUE_LCD, O_RDONLY);
     Queue receipt_queue(QUEUE_RECEIPT, O_RDONLY);
 
     barcode_queue.flush();

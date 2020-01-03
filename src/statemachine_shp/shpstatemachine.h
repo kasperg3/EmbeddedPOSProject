@@ -23,13 +23,16 @@ private:
     Queue card_reader_queue;
     Queue keyboard_queue;
     Queue receipt_queue;
-    //Queue customer_display_queue;
+    Queue numpad_queue;
+    Queue lcd_queue;
+
     zmq::context_t context;
     zmq::socket_t customer_display_socket;
 
     std::string barcode;
     std::string card_number;
-    std::string key;
+    std::string keyboard_key;
+    std::string numpad_key;
 
     std::string multiplier;
 
@@ -45,7 +48,7 @@ private:
     void scan_fsm();
     void pay_fsm();
 
-    bool key_is_a_number();
+    bool keyboard_key_is_a_number();
     void print_on_customer_display(std::string request);
 
 
