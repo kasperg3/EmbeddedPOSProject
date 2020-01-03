@@ -134,7 +134,6 @@ int DisplayDriver::setDataBits(std::string databits) {  //send to display or to 
 
 
 int DisplayDriver::sendCommand(std::string command) {  //check reference-manual Pmod CLP instruction codes
-    std::cout << "command: " << command << std::endl;
     if(command == "Clear"){ //0000 0000 01
         setDataBits("0000000001");
     }

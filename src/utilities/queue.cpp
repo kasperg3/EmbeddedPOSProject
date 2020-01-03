@@ -7,7 +7,7 @@ Queue::Queue(const char *queue_name, int flags)
     this->queue_name = queue_name;
     queue_handle = mq_open(queue_name, flags);
     if(queue_handle == (mqd_t) -1)
-        printf("Could not open queue %s - %s\n", queue_name, strerror(errno));
+        printf("[Queue]Could not open queue %s - %s\n", queue_name, strerror(errno));
 }
 
 Queue::Queue(const char *queue_name, int flags, int maxmsg, int msgsize)
@@ -21,7 +21,7 @@ Queue::Queue(const char *queue_name, int flags, int maxmsg, int msgsize)
 
     queue_handle = mq_open(queue_name, O_CREAT | flags, permissions, &queue_attributes);
     if(queue_handle == (mqd_t) -1)
-        printf("Could not create queue %s - %s\n", queue_name, strerror(errno));
+        printf("[Queue] Could not create queue %s - %s\n", queue_name, strerror(errno));
 }
 
 bool Queue::empty()

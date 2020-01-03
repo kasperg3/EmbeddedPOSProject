@@ -289,6 +289,26 @@ void CustomerDisplayTest(){
 }
 
 
+void testDisplayDriver(){
+    DisplayDriverTask displayDriverTask;
+    DisplayDriver displayDriver;
+    displayDriver.init();
+    displayDriver.clear();
+
+    pthread_t displayConsumer;
+
+    uid_t user_id = getuid();
+    if(user_id > 0) {
+        printf("Run as root.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    pthread_create(&displayConsumer, NULL, reinterpret_cast<void *(*)(void *)>(DisplayDriverTask::taskHandler), &displayDriver);
+    pthread_join(displayConsumer, NULL);
+
+}
+
+
 void create_mqueues()
 {
     Queue barcode_queue(QUEUE_BARCODE, O_RDONLY | O_NONBLOCK, QUEUE_BARCODE_MAXMSG, QUEUE_BARCODE_MSGSIZE);
@@ -320,12 +340,14 @@ int main() {
     //testCardReaderTask();
     //testKeyboardTask();
     //CustomerDisplayTest();
+    //testDisplayDriver();
 
     uid_t user_id = getuid();
     if(user_id > 0) {
         printf("Run as root.\n");
         exit(EXIT_FAILURE);
     }
+
     create_mqueues();
 
     CardReaderTask cardReaderTask();
@@ -349,6 +371,13 @@ int main() {
     ReceiptPrinterTask receiptPrinterTask();
     pthread_t receiptConsumer;
     pthread_create(&receiptConsumer, NULL, reinterpret_cast<void *(*)(void *)>(ReceiptPrinterTask::taskHandler), NULL);
+
+    DisplayDriverTask displayDriverTask;
+    DisplayDriver displayDriver;
+    displayDriver.init();
+    displayDriver.clear();
+    pthread_t displayTask;
+    pthread_create(&displayTask, NULL, reinterpret_cast<void *(*)(void *)>(DisplayDriverTask::taskHandler), &displayDriver);
 
     ShpStateMachine sm;
     sm.run();

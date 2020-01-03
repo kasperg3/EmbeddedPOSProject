@@ -83,7 +83,6 @@ static char *shift_key_names[] = {
         "<PageDown>", "<Insert>", "<Delete>"
 };
 
-
 #undef UK
 
 //NumpadDriver QUEUE Defines
@@ -113,7 +112,6 @@ static char *shift_key_names[] = {
 #define CD_QUEUE_MSGSIZE 128 /* Length of message. */
 #define CD_QUEUE_ATTR_INITIALIZER ((struct mq_attr){0, CD_QUEUE_MAXMSG, CD_QUEUE_MSGSIZE, 0, {0}})
 
-
 //KeyBoard QUEUE Defines
 #define QUEUE_KEYBOARD  "/keyboard_queue" /* Queue name. */
 #define QUEUE_KEYBOARD_MAXMSG  16 /* Maximum number of messages. */
@@ -122,7 +120,7 @@ static char *shift_key_names[] = {
 //LCDDriver QUEUE Defines
 #define QUEUE_LCD "/lcd_queue"
 #define QUEUE_LCD_MAXMSG 10
-#define QUEUE_LCD_MSGSIZE 50
+#define QUEUE_LCD_MSGSIZE 33
 
 #define QUEUE_RECEIPT  "/receipt_queue" /* Queue name. */
 #define QUEUE_RECEIPT_PERMS ((int)(0644))

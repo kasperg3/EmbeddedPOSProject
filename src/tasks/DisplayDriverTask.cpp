@@ -4,6 +4,7 @@
 
 #include <thread>
 #include "DisplayDriverTask.hpp"
+#include "../utilities/queue.h"
 
 
 void DisplayDriverTask::setMessageQueue(std::string msg) {
@@ -14,33 +15,27 @@ void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
     //displayDriver->init();
     //displayDriver->clear();
     /* Initialize the queue attributes */
-    mq_unlink(QUEUE_NUMPAD);
-    struct mq_attr attr = QUEUE_NUMPAD_ATTR_INITIALIZER;
-
-    /* Create the message queue. The queue reader is NONBLOCK. */
-    mqd_t mq = mq_open(QUEUE_NUMPAD, O_CREAT | O_RDONLY, QUEUE_NUMPAD_PERMS, &attr);
-    if(mq < 0) {
-        fprintf(stderr, "[CONSUMER]: Error, cannot open the queue: %s.\n", strerror(errno));
-        exit(1);
-    }else{    printf("[CONSUMER]: Queue opened, queue descriptor: %d.\n", mq);}
-
-    ssize_t bytes_read;
-    char buffer[QUEUE_NUMPAD_MSGSIZE + 1];
-    while(th_consumer_running) {
-        memset(buffer, 0x00, sizeof(buffer));
-        bytes_read = mq_receive(mq, buffer, QUEUE_NUMPAD_MSGSIZE, 0);
-        if(bytes_read >= 0) {
-            printf("[CONSUMER]: Received message: %s \n", buffer);
+    mq_unlink(QUEUE_LCD);
+    Queue receiptQueue(QUEUE_RECEIPT,O_RDONLY|O_CREAT,QUEUE_RECEIPT_MAXMSG,QUEUE_RECEIPT_MSGSIZE);
+    while(true) {
+        std::string buffer = receiptQueue.receive();
+        if(buffer[0] == '1'){
+            //Remove the first character of the message
+            buffer.erase(0,1);
+            buffer.erase(buffer.size()-1);
+            displayDriver->print(40,buffer);
+        }else if(buffer[0] == '0'){
+            buffer.erase(0,1);
+            buffer.erase(buffer.size()-1);
             displayDriver->print(0,buffer);
-        } else {//Wait for messages
-            std::this_thread::sleep_for(std::chrono::milliseconds(5)); //Double the poll speed of producer
         }
+
+        printf("[DisplayDriver]: Received message: %s \n", buffer.c_str());
         fflush(stdout);
     }
 
     /* Cleanup */
     printf("[CONSUMER]: Cleanup...\n");
-    mq_close(mq);
-    mq_unlink(QUEUE_NUMPAD);
+    mq_unlink(QUEUE_LCD);
 
 }
