@@ -29,6 +29,24 @@ bool CardReader::luhnAlgorithm() {
     return result;
 }
 
+bool CardReader::luhnAlgorithm(std::string cardNmber) {
+    int nDigits = 16;
+    int parity = nDigits % 2;
+    int sum = 0;
+    for (int i = 0; i < nDigits; i++) {
+        int digit = (int) cardNmber[i] - '0';
+        if (i % 2 == parity)
+            digit = digit * 2;
+        if (digit > 9)
+            digit = digit - 9;
+        sum += digit;
+    }
+
+    int result = ((sum % 10) == parity);
+
+    return result;
+}
+
 int CardReader::waitForSwipe() {
 
     std::string line;

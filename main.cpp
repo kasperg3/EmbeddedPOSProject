@@ -248,7 +248,7 @@ void testReceiptPrinterTask(){
     }
 
     pthread_create(&receiptConsumer, NULL, reinterpret_cast<void *(*)(void *)>(ReceiptPrinterTask::taskHandler), NULL);
-    pthread_join(receiptConsumer, NULL);
+    //pthread_join(receiptConsumer, NULL);
 
 }
 

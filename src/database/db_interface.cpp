@@ -171,7 +171,7 @@ void DatabaseInterface::completeTransaction(Receipt receipt)
         request += "*quantity;" + to_string(line.quantity);
     }
 
-    cout << "Will send to db_interface ------------" << endl;
+    cout << "Sending complete transaction request to database" << endl;
     cout << request << endl;
 
     string data = sendRequest(request);

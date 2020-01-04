@@ -30,6 +30,8 @@ public:
 
 private:
     std::string cardNumber;
+
+    bool luhnAlgorithm(std::string cardNmber);
 };
 
 #endif //EMBEDDEDPROJ_CARDREADER_HPP

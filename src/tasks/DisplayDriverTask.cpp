@@ -16,17 +16,15 @@ void *DisplayDriverTask::taskHandler(DisplayDriverTask *displayDriver) {
     //displayDriver->clear();
     /* Initialize the queue attributes */
 
-    Queue receiptQueue(QUEUE_RECEIPT,O_RDONLY|O_CREAT ,QUEUE_RECEIPT_MAXMSG,QUEUE_RECEIPT_MSGSIZE);
+    Queue lcdQueue(QUEUE_LCD,O_RDONLY|O_CREAT ,QUEUE_LCD_MAXMSG,QUEUE_LCD_MSGSIZE);
     while(true) {
-        std::string buffer = receiptQueue.receive();
+        std::string buffer = lcdQueue.receive();
         if(buffer[0] == '1'){
             //Remove the first character of the message
             buffer.erase(0,1);
-            buffer.erase(buffer.size()-1);
             displayDriver->print(40,buffer);
         }else if(buffer[0] == '0'){
             buffer.erase(0,1);
-            buffer.erase(buffer.size()-1);
             displayDriver->print(0,buffer);
         }else if(buffer[0] == '2'){
             displayDriver->clear();

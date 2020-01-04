@@ -1,4 +1,5 @@
 #include "shpstatemachine.h"
+#include "../peripherals/CardReader.hpp"
 
 #include <iostream>
 #include <unistd.h>
@@ -25,9 +26,6 @@ ShpStateMachine::ShpStateMachine()
 void ShpStateMachine::run()
 {
     state = STATE_SCAN_INIT;
-    receipt = dbi.createNewReceipt();
-//    print_on_customer_display("INIT SCREEN\n");
-
     while(true)
     {
         //cout << "Current state: " << state_map[state] << endl;
@@ -88,7 +86,11 @@ void ShpStateMachine::scan_fsm()
     switch(state)
     {
     case STATE_SCAN_INIT:
+        lcd_queue.send("2");
+        lcd_queue.send("0Welcome to ESD");
         print_on_customer_display("Welcome to ESD Shop <3");
+
+        cout << "Requesting new receipt ID from database" << endl;
         receipt = dbi.createNewReceipt();
         change_state_to(STATE_SCAN);
         break;
@@ -153,8 +155,11 @@ void ShpStateMachine::pay_fsm()
     {
     case CHOOSE_PAYMENT:
         if(event == EVENT_KEYBOARD_PRESSED) {
-            if (keyboard_key == "1")
+            if (keyboard_key == "1") {
                 change_state_to(BY_CARD);
+                lcd_queue.send("2");
+                lcd_queue.send("0Swipe card");
+            }
             else if (keyboard_key == "2")
                 change_state_to(BY_CASH);
             else if (keyboard_key == "<ESC>")
@@ -189,12 +194,19 @@ void ShpStateMachine::pay_fsm()
         change_state_to(ENTER_PIN);
         //if invalid
         //state = BY_CARD;
+        lcd_queue.send("2");
+        lcd_queue.send("0Enter Pin:");
+        lcd_queue.send("1Pin: ");
     break;
 
     case ENTER_PIN:
         if(event == EVENT_NUMPAD_PRESSED){
             pin += numpad_key;
-            cout <<"pin: " << pin << endl;
+            std::string displayString = "1Pin:";
+            for(size_t i = 0; i < pin.size(); i++){
+                displayString.append("*");
+            }
+            lcd_queue.send(displayString);
         }
         if(pin.size() > 3)
             change_state_to(VALIDATE_PIN);
@@ -202,16 +214,21 @@ void ShpStateMachine::pay_fsm()
             if (keyboard_key == "<ESC>")
                 change_state_to(CHOOSE_PAYMENT);
         break;
-
     case VALIDATE_PIN:
         if(pin == "1234"){
             //end transaction
+            lcd_queue.send("2");
+            lcd_queue.send("0Purchase");
+            lcd_queue.send("1successful");
             receipt.setPaymentStatus("payed");
             dbi.completeTransaction(receipt);
             change_state_to(CHOOSE_PRINT);
         }
         else
         {
+            lcd_queue.send("2");
+            lcd_queue.send("0Wrong pin");
+            lcd_queue.send("1Pin:");
             pin.clear();
             change_state_to(ENTER_PIN);
         }
